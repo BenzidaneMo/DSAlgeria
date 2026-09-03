@@ -3,6 +3,7 @@
  * @property {"compare"|"swap"|"visit"|"insert"|"remove"|"complete"|"custom"} type
  * @property {number[]} [indices]
  * @property {number[]} [array]
+ * @property {number[]} [finalizedIndices]
  * @property {number|null} codeLine
  * @property {string} [operation]
  * @property {string} [message]
@@ -17,6 +18,7 @@ export function createStep(step) {
     type: step.type,
     indices: step.indices ? [...step.indices] : [],
     array: step.array ? [...step.array] : [],
+    finalizedIndices: step.finalizedIndices ? [...step.finalizedIndices] : [],
     codeLine: step.codeLine ?? null,
     operation: step.operation ?? step.type,
     message: step.message ?? null,

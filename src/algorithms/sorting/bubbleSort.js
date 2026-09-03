@@ -37,6 +37,7 @@ export function generateBubbleSortSteps(input = []) {
 
   const array = [...input];
   const steps = [];
+  const finalizedIndices = [];
 
   for (let pass = 0; pass < array.length - 1; pass += 1) {
     let swapped = false;
@@ -49,6 +50,7 @@ export function generateBubbleSortSteps(input = []) {
       steps.push(createStep({
         type: STEP_TYPES.COMPARE,
         array,
+        finalizedIndices,
         indices: [index, index + 1],
         codeLine: 8,
         message: `نقارن بين العنصرين ${left} و ${right}`,
@@ -61,6 +63,7 @@ export function generateBubbleSortSteps(input = []) {
         steps.push(createStep({
           type: STEP_TYPES.SWAP,
           array,
+          finalizedIndices,
           indices: [index, index + 1],
           codeLine: 9,
           message: `بما أن ${left} أكبر من ${right}، نقوم بتبديل العنصرين`,
@@ -70,13 +73,19 @@ export function generateBubbleSortSteps(input = []) {
     }
 
     if (!swapped) {
+      for (let index = 0; index < array.length - pass; index += 1) {
+        finalizedIndices.push(index);
+      }
       break;
     }
+
+    finalizedIndices.push(array.length - 1 - pass);
   }
 
   steps.push(createStep({
     type: STEP_TYPES.COMPLETE,
     array,
+    finalizedIndices: array.map((_, index) => index),
     codeLine: null,
     message: "اكتمل الترتيب بنجاح",
   }));
