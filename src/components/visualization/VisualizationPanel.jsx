@@ -16,7 +16,7 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
   const operationLabel = currentStep ? OPERATION_LABELS[currentStep.type] ?? currentStep.operation : "جاهز للتشغيل";
 
   return (
-    <section className="relative flex min-h-0 min-w-0 flex-col overflow-hidden bg-bg-app" aria-labelledby="visualization-heading">
+    <section className="relative col-span-6 flex min-h-0 min-w-0 flex-col overflow-hidden bg-bg-app" aria-labelledby="visualization-heading">
       <div className="flex shrink-0 items-center justify-between border-b border-border-subtle px-5 py-3">
         <div>
           <h1 id="visualization-heading" className="text-sm font-medium text-text-secondary">{selectedAlgorithm?.name ?? "منطقة التصور"}</h1>

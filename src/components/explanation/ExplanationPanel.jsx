@@ -4,7 +4,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
   const complexity = selectedAlgorithm?.complexity;
 
   return (
-    <section className="min-h-0 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
+    <section className="min-h-0 col-span-2 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
       <div className="mb-4 flex items-center gap-2 border-b border-border-subtle pb-3">
         <BookOpen className="h-4 w-4 text-accent-yellow" strokeWidth={1.8} />
         <h2 id="explanation-heading" className="text-xs font-semibold text-text-primary">شرح الخوارزمية</h2>
@@ -24,7 +24,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
                 <Clock3 className="h-3.5 w-3.5 text-accent-yellow" strokeWidth={1.8} />
                 <h3 className="text-xs font-semibold text-text-primary">التعقيد</h3>
               </div>
-              <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-[11px]">
+              <dl className="grid grid-cols-1 xl:grid-cols-2 gap-x-3 gap-y-2 text-[11px]">
                 <div className="flex items-center justify-between gap-2"><dt className="text-text-muted">أفضل حالة</dt><dd className="font-mono text-text-secondary">{complexity.best}</dd></div>
                 <div className="flex items-center justify-between gap-2"><dt className="text-text-muted">الحالة المتوسطة</dt><dd className="font-mono text-text-secondary">{complexity.average}</dd></div>
                 <div className="flex items-center justify-between gap-2"><dt className="text-text-muted">أسوأ حالة</dt><dd className="font-mono text-text-secondary">{complexity.worst}</dd></div>
