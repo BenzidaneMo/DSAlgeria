@@ -1,9 +1,19 @@
 import { ChevronDown, ListTree, Search } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
 
 export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm }) {
   const [expandedCategory, setExpandedCategory] = useState("sorting");
+  const [query, setQuery] = useState("");
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredCategories = useMemo(() => ALGORITHM_CATEGORIES.map((category) => ({
+    ...category,
+    algorithms: category.algorithms.filter((algorithm) => (
+      !normalizedQuery
+      || algorithm.name.toLowerCase().includes(normalizedQuery)
+      || algorithm.englishName.toLowerCase().includes(normalizedQuery)
+    )),
+  })).filter((category) => category.algorithms.length > 0), [normalizedQuery]);
 
   function toggleCategory(categoryId) {
     setExpandedCategory((currentCategory) => (
@@ -18,14 +28,14 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm 
         <ListTree className="h-4 w-4 text-accent-blue" strokeWidth={1.8} />
       </div>
       <div className="border-b border-border-subtle p-3">
-        <div className="flex h-7 items-center gap-2 border border-border-subtle bg-bg-inset px-2 text-text-muted">
+        <label className="flex h-7 items-center gap-2 border border-border-subtle bg-bg-inset px-2 text-text-muted focus-within:border-accent-blue">
           <Search className="h-3.5 w-3.5" />
-          <span className="text-[11px]">بحث...</span>
-        </div>
+          <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="بحث..." aria-label="البحث عن خوارزمية" className="min-w-0 flex-1 bg-transparent text-[11px] text-text-primary outline-none placeholder:text-text-muted" />
+        </label>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {ALGORITHM_CATEGORIES.map((category) => {
-          const isExpanded = expandedCategory === category.id;
+        {filteredCategories.map((category) => {
+          const isExpanded = normalizedQuery ? true : expandedCategory === category.id;
 
           return (
             <section key={category.id} className="border-b border-border-subtle">
@@ -63,6 +73,7 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm 
             </section>
           );
         })}
+        {normalizedQuery && filteredCategories.length === 0 && <p className="px-4 py-4 text-xs text-text-muted">لم يتم العثور على خوارزمية.</p>}
       </div>
     </aside>
   );
