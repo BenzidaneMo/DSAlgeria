@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   DSAlgeria — design tokens
+   VS Code-inspired dark palette + syntax-accent colors.
+   --------------------------------------------------------------- */
+@theme {
+  --font-sans: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* Surfaces */
+  --color-bg-app: #1e1e1e;       /* editor-area background */
+  --color-bg-panel: #252526;      /* sidebar / activity bar */
+  --color-bg-elevated: #2d2d30;   /* cards, raised surfaces */
+  --color-bg-inset: #181818;      /* title bar / status bar (recessed) */
+  --color-bg-hover: #2a2d2e;      /* hover state on list rows */
+
+  /* Borders */
+  --color-border: #3c3c3c;
+  --color-border-subtle: #303031;
+
+  /* Text */
+  --color-text-primary: #d4d4d4;
+  --color-text-secondary: #969696;
+  --color-text-muted: #6a6a6a;
+
+  /* Accents (syntax-inspired) */
+  --color-accent-blue: #569cd6;    /* keywords / primary actions */
+  --color-accent-blue-bright: #4fc1ff;
+  --color-accent-green: #6a9955;   /* comments / success */
+  --color-accent-orange: #ce9178;  /* strings / warm highlight */
+  --color-accent-yellow: #dcdcaa;  /* functions */
+  --color-accent-purple: #c586c0;  /* keywords secondary */
+  --color-accent-red: #f14c4c;     /* errors / destructive */
+}
+
+/* ---------------------------------------------------------------
+   Base / reset
+   --------------------------------------------------------------- */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* the whole app fits the viewport, no page scroll */
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg-app);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Scrollbars: kept slim + VS Code-like for the rare internal scroll areas
+   (e.g. a long algorithm list) even though the app shell itself never scrolls. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #424242;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #4f4f4f;
+}
+
+/* Focus visibility, kept subtle but present */
+:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+}
