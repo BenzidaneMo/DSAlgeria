@@ -18,6 +18,10 @@ export function createStep(step) {
   });
 }
 
+export function createCompleteStep() {
+  return createStep({ type: "complete", codeLine: null });
+}
+
 export const STEP_TYPES = Object.freeze({
   COMPARE: "compare",
   SWAP: "swap",
