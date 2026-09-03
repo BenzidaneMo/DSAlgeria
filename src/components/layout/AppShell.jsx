@@ -7,12 +7,20 @@ import Navbar from "./Navbar";
 
 export default function AppShell() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
+  const [array, setArray] = useState([5, 3, 8, 2, 7]);
   const [steps, setSteps] = useState([]);
   const player = useAlgorithmPlayer({ steps });
 
   function selectAlgorithm(algorithm) {
     setSelectedAlgorithm(algorithm);
-    setSteps(generateStepsForAlgorithm(algorithm));
+    setSteps(generateStepsForAlgorithm({ ...algorithm, input: array }));
+  }
+
+  function applyArray(nextArray) {
+    setArray(nextArray);
+    if (selectedAlgorithm) {
+      setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: nextArray }));
+    }
   }
 
   return (
@@ -22,6 +30,8 @@ export default function AppShell() {
         selectedAlgorithm={selectedAlgorithm}
         onSelectAlgorithm={selectAlgorithm}
         currentStep={player.currentStep}
+        array={array}
+        onApplyArray={applyArray}
       />
       <ControlBar player={player} />
     </div>
