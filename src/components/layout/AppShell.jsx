@@ -30,6 +30,9 @@ export default function AppShell() {
         selectedAlgorithm={selectedAlgorithm}
         onSelectAlgorithm={selectAlgorithm}
         currentStep={player.currentStep}
+        steps={steps}
+        currentStepIndex={player.currentStepIndex}
+        executionLog={player.executionLog}
         array={array}
         onApplyArray={applyArray}
       />
