@@ -20,6 +20,7 @@ export function useAlgorithmPlayer({ steps = [], interval = DEFAULT_INTERVAL } =
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [executionLog, setExecutionLog] = useState([]);
+  const [speed, setSpeed] = useState(1);
 
   useEffect(() => {
     setCurrentStepIndex(-1);
@@ -42,10 +43,10 @@ export function useAlgorithmPlayer({ steps = [], interval = DEFAULT_INTERVAL } =
         recordStep(setExecutionLog, steps, nextIndex);
         return nextIndex;
       });
-    }, interval);
+    }, interval / speed);
 
     return () => window.clearInterval(timerId);
-  }, [interval, isPlaying, steps]);
+  }, [interval, isPlaying, speed, steps]);
 
   function next() {
     const nextIndex = Math.min(currentStepIndex + 1, steps.length - 1);
@@ -79,6 +80,7 @@ export function useAlgorithmPlayer({ steps = [], interval = DEFAULT_INTERVAL } =
     currentStep: currentStepIndex >= 0 ? steps[currentStepIndex] : null,
     currentStepIndex,
     totalSteps: steps.length,
+    speed,
     executionLog,
     isPlaying,
     canGoNext: currentStepIndex < steps.length - 1,
@@ -88,5 +90,6 @@ export function useAlgorithmPlayer({ steps = [], interval = DEFAULT_INTERVAL } =
     play,
     pause,
     reset,
+    setSpeed,
   };
 }

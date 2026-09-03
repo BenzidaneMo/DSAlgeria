@@ -10,7 +10,7 @@ export default function MainWorkspace({ selectedAlgorithm, onSelectAlgorithm, cu
 
   return (
     <main className="relative grid min-h-0 flex-1 grid-cols-[minmax(190px,0.8fr)_minmax(0,2.2fr)_minmax(210px,0.9fr)] overflow-hidden border-b border-border" aria-label="مساحة العمل الرئيسية">
-        <ExplanationPanel array={array} />
+        <ExplanationPanel array={array} selectedAlgorithm={selectedAlgorithm} currentStep={currentStep} />
         <VisualizationPanel selectedAlgorithm={selectedAlgorithm} currentStep={currentStep} steps={steps} currentStepIndex={currentStepIndex} executionLog={executionLog} array={array} />
         <AlgorithmSidebar selectedAlgorithm={selectedAlgorithm} onSelectAlgorithm={onSelectAlgorithm} />
         <div className="absolute bottom-4 left-4 flex items-center justify-center w-xs gap-2 border border-border-subtle p-1.5 bg-bg-app">
