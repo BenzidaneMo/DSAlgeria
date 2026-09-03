@@ -33,7 +33,7 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
       </div>
 
       <div className="flex min-h-80 flex-1 items-end justify-center px-6 pb-10 pt-8">
-        {mode === "2d" ? <Array2DVisualizer array={array} currentStep={currentStep} /> : <Array3DVisualizer />}
+        {mode === "2d" ? <Array2DVisualizer array={array} currentStep={currentStep} /> : <Array3DVisualizer array={array} currentStep={currentStep} />}
       </div>
 
       <div className="relative grid min-h-80 max-h-80 grid-cols-2 border-t border-border-subtle">
