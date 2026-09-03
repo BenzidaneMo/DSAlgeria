@@ -16,7 +16,7 @@ export default function ExecutionLog({ executionLog = [], currentStepIndex, tota
   const visibleSteps = [...executionLog].reverse();
 
   return (
-    <section className="col-span-1 top-10 inset-e-4 z-10 flex h-full overflow-scroll flex-col border border-border bg-bg-panel/95 shadow-xl backdrop-blur-sm" aria-labelledby="execution-log-heading">
+    <section className="col-span-1 inset-e-4 flex h-full overflow-scroll flex-col border border-border bg-bg-panel/95 shadow-xl backdrop-blur-sm" aria-labelledby="execution-log-heading">
       <div className="flex shrink-0 items-center justify-between border-b border-border-subtle px-3 py-2">
         <h2 id="execution-log-heading" className="text-xs font-semibold text-text-primary">سجل التنفيذ</h2>
         <span className="font-mono text-[10px] text-text-muted">{Math.max(currentStepIndex + 1, 0)} / {totalSteps}</span>

@@ -4,7 +4,7 @@ export default function SourceCodePanel({ sourceCode = "", activeLine = null }) 
   const lines = sourceCode ? sourceCode.split("\n") : [];
 
   return (
-    <section className="flex min-h-0 min-w-0 flex-col border-s border-border-subtle bg-bg-inset" aria-labelledby="source-code-heading">
+    <section className="flex min-w-0 flex-col h-full overflow-scroll border border-border bg-bg-inset" aria-labelledby="source-code-heading">
       <div className="flex shrink-0 items-center gap-2 border-b border-border-subtle px-3 py-2">
         <Code2 className="h-3.5 w-3.5 text-accent-blue" strokeWidth={1.8} />
         <h2 id="source-code-heading" className="text-xs font-semibold text-text-primary">الكود المصدري</h2>
