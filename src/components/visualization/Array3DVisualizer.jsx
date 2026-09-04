@@ -27,7 +27,7 @@ function CameraController({ arrayLength, resetToken, controlsRef }) {
   return null;
 }
 
-export default function Array3DVisualizer({ array = [], currentStep, currentStepIndex = -1 }) {
+export default function Array3DVisualizer({ array = [], currentStep, currentStepIndex = -1, onCanvasReady }) {
   const values = currentStep?.array?.length ? currentStep.array : array;
   const [resetToken, setResetToken] = useState(0);
   const controlsRef = useRef();
@@ -42,7 +42,7 @@ export default function Array3DVisualizer({ array = [], currentStep, currentStep
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#15191d]" aria-label="التصور ثلاثي الأبعاد للمصفوفة">
-      <Canvas shadows camera={{ position: [0, 5.5, 7.5], fov: CAMERA_FOV }} dpr={[1, 1.5]}>
+      <Canvas shadows camera={{ position: [0, 5.5, 7.5], fov: CAMERA_FOV }} dpr={[1, 1.5]} onCreated={({ gl }) => onCanvasReady?.(gl.domElement)}>
         <color attach="background" args={["#15191d"]} />
         <fog attach="fog" args={["#15191d", 9, 18]} />
         <CameraController arrayLength={values.length} resetToken={resetToken} controlsRef={controlsRef} />

@@ -11,7 +11,7 @@ const OPERATION_LABELS = {
   complete: "اكتمل الترتيب",
 };
 
-export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [] }) {
+export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [], onCanvasReady }) {
   const [mode, setMode] = useState("2d");
   const operationLabel = currentStep ? OPERATION_LABELS[currentStep.type] ?? currentStep.operation : "جاهز للتشغيل";
 
@@ -33,7 +33,7 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
       </div>
 
       <div className="flex min-h-80 flex-1 items-end justify-center px-6 pb-10 pt-8">
-        {mode === "2d" ? <Array2DVisualizer array={array} currentStep={currentStep} /> : <Array3DVisualizer array={array} currentStep={currentStep} />}
+        {mode === "2d" ? <Array2DVisualizer array={array} currentStep={currentStep} /> : <Array3DVisualizer array={array} currentStep={currentStep} onCanvasReady={onCanvasReady} />}
       </div>
 
       <div className="relative grid min-h-80 max-h-80 grid-cols-2 border-t border-border-subtle">
