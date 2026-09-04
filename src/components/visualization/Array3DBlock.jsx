@@ -17,7 +17,7 @@ function getBlockColor({ isCompared, isSwapping, isSorted, isActive }) {
   return "#2b3c4d";
 }
 
-export default function Array3DBlock({ value, index, height, x, state, swapStartX, stepIndex }) {
+export default function Array3DBlock({ value, index, height, width = 0.9, depth = width, x, state, swapStartX, stepIndex, labelSize = 0.2 }) {
   const isCompared = state.comparedIndices.includes(index) || state.activeIndices.includes(index);
   const isSwapping = state.swappedIndices.includes(index);
   const isSorted = state.sortedIndices.includes(index);
@@ -27,10 +27,10 @@ export default function Array3DBlock({ value, index, height, x, state, swapStart
   return (
     <Array3DAnimation targetX={x} targetY={isActive ? 0.1 : 0} isSwapping={isSwapping} swapStartX={swapStartX} stepIndex={stepIndex}>
       <mesh position={[0, height / 2 + 0.16, 0]} castShadow receiveShadow>
-        <boxGeometry args={[0.9, height, 0.9]} />
+        <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial color={color} roughness={0.72} metalness={0.08} />
       </mesh>
-      <Array3DLabels value={value} height={height} color={isActive || isSorted ? color : "#d4d4d4"} />
+      <Array3DLabels value={value} height={height} fontSize={labelSize} color={isActive || isSorted ? color : "#d4d4d4"} />
     </Array3DAnimation>
   );
 }

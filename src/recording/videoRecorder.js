@@ -84,6 +84,8 @@ export class VideoRecorder {
       this.mediaRecorder.onstop = () => {
         const blob = new Blob(this.chunks, { type: this.mediaRecorder.mimeType });
         this.mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+        this.mediaRecorder = null;
+        this.chunks = [];
         resolve(blob);
       };
       this.mediaRecorder.stop();

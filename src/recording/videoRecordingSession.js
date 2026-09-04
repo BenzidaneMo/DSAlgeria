@@ -28,10 +28,12 @@ export class VideoRecordingSession {
   }
 
   async stop() {
-    const video = await this.recorder.stop();
-    this.restoreInteractiveState?.(this.previousInteractiveState);
-    this.previousInteractiveState = null;
-    return video;
+    try {
+      return await this.recorder.stop();
+    } finally {
+      this.restoreInteractiveState?.(this.previousInteractiveState);
+      this.previousInteractiveState = null;
+    }
   }
 
   cancel() {

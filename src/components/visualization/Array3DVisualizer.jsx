@@ -2,18 +2,19 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import Array3DScene from "./Array3DScene";
+import Array3DScene, { getArray3DLayout } from "./Array3DScene";
 
 const CAMERA_FOV = 42;
 const CAMERA_TARGET_Y = 1.4;
 
-function getCameraDistance(arrayLength) {
-  return Math.max(7, arrayLength * 1.35 + 4);
+function getCameraDistance(arrayLength, aspect = 16 / 9) {
+  const layout = getArray3DLayout(arrayLength);
+  return Math.max(7, Math.min(15, layout.width * 0.72 / aspect + 4));
 }
 
-function CameraController({ arrayLength, resetToken, controlsRef }) {
+function CameraController({ arrayLength, aspect, resetToken, controlsRef }) {
   const { camera } = useThree();
-  const distance = getCameraDistance(arrayLength);
+  const distance = getCameraDistance(arrayLength, aspect);
   const cameraHeight = Math.max(2.8, Math.min(5.2, distance * 0.32));
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function CameraController({ arrayLength, resetToken, controlsRef }) {
   return null;
 }
 
-export default function Array3DVisualizer({ array = [], currentStep, currentStepIndex = -1, onCanvasReady }) {
+export default function Array3DVisualizer({ array = [], currentStep, currentStepIndex = -1, onCanvasReady, viewportWidth = 1280, viewportHeight = 720 }) {
   const values = currentStep?.array?.length ? currentStep.array : array;
   const [resetToken, setResetToken] = useState(0);
   const controlsRef = useRef();
@@ -45,7 +46,7 @@ export default function Array3DVisualizer({ array = [], currentStep, currentStep
       <Canvas shadows camera={{ position: [0, 5.5, 7.5], fov: CAMERA_FOV }} dpr={[1, 1.5]} onCreated={({ gl }) => onCanvasReady?.(gl.domElement)}>
         <color attach="background" args={["#15191d"]} />
         <fog attach="fog" args={["#15191d", 9, 18]} />
-        <CameraController arrayLength={values.length} resetToken={resetToken} controlsRef={controlsRef} />
+        <CameraController arrayLength={values.length} aspect={viewportWidth / viewportHeight} resetToken={resetToken} controlsRef={controlsRef} />
         <Array3DScene values={values} visualizationState={visualizationState} stepIndex={currentStepIndex} />
         <OrbitControls ref={controlsRef} enablePan minDistance={4} maxDistance={32} maxPolarAngle={Math.PI / 2.1} target={[0, CAMERA_TARGET_Y, 0]} />
       </Canvas>
