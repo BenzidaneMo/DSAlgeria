@@ -14,7 +14,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   const values = currentArray.length > 0 ? currentArray : [0];
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
-  const { activeIndices, foundIndices, partitionIndices, pivotIndex, pointerIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
+  const { activeIndices, currentSearchRange, eliminatedIndices, foundIndices, partitionIndices, pivotIndex, pointerIndices, searchPointers, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
 
   if (currentArray.length === 0) {
     return (
@@ -26,14 +26,19 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   }
 
   return (
-    <div className="flex h-full w-full max-w-3xl items-end justify-center gap-2 border-b border-border px-4">
+    <div dir="ltr" className="flex h-full w-full max-w-3xl items-end justify-center gap-2 border-b border-border px-4">
       {currentArray.map((value, index) => {
         const isActive = activeIndices.includes(index);
         const isFinalized = finalizedIndices.includes(index);
         const isPivot = pivotIndex === index && !isFinalized;
         const isPointer = pointerIndices.includes(index);
-        const isInPartition = partitionIndices.includes(index) && !isFinalized;
-                  const barColor = foundIndices.includes(index)
+                const isInPartition = partitionIndices.includes(index) && !isFinalized;
+                const isInSearchRange = currentSearchRange
+          ? index >= currentSearchRange.start && index <= currentSearchRange.end
+          : true;
+        const isEliminated = eliminatedIndices.includes(index);
+        const pointerRole = searchPointers.left === index ? "يسار" : searchPointers.middle === index ? "وسط" : searchPointers.right === index ? "يمين" : null;
+        const barColor = foundIndices.includes(index)
           ? "border-accent-green bg-accent-green/30 text-accent-green"
           : isFinalized
             ? "border-accent-green bg-accent-green/30 text-accent-green"
@@ -52,9 +57,10 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
               : "border-border bg-bg-elevated text-text-secondary";
 
         return (
-          <div key={index} className="flex h-full min-w-0 flex-1 items-end justify-center">
+                    <div key={index} className={`flex h-full min-w-0 flex-1 items-end justify-center ${isEliminated ? "opacity-30" : isInSearchRange ? "opacity-100" : "opacity-45"}`}>
             <div className={`relative flex w-full max-w-16 items-start justify-center border transition-all duration-500 ease-out ${barColor}`} style={{ height: `${getBarHeight(value, minimum, maximum)}%` }} aria-label={`العنصر ${value}`}>
               <span className="absolute -top-5 font-mono text-[11px]">{value}</span>
+              {pointerRole && <span className="absolute -bottom-7 text-[9px] text-accent-yellow">{pointerRole}</span>}
             </div>
           </div>
         );
