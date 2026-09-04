@@ -46,7 +46,17 @@ export default function Array3DBlock({ value, index, height, width = 0.9, depth 
   const isPivot = state.pivotIndex === index && !isSorted;
   const isInPartition = state.partitionIndices.includes(index) && !isSorted;
   const isPointer = state.pointerIndices.includes(index);
-  const pointerLabel = state.searchPointers.left === index ? "يسار" : state.searchPointers.middle === index ? "وسط" : state.searchPointers.right === index ? "يمين" : null;
+  const pointerLabel = state.searchPointers.left === index
+    ? "left"
+    : state.searchPointers.mid1 === index
+      ? "mid1"
+      : state.searchPointers.mid2 === index
+        ? "mid2"
+        : state.searchPointers.middle === index
+          ? "middle"
+          : state.searchPointers.right === index
+            ? "right"
+            : null;
   const color = getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isFound, isActive, isPivot, isInPartition, isPointer });
 
   return (

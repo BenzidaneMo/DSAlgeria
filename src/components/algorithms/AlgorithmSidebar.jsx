@@ -76,9 +76,12 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
         </div>
         {sortedState?.isSorted && <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-green">مصفوفة مرتبة جاهزة للبحث: [{sortedState.sortedArray.join("، ")}]<br />مصدر الترتيب: {sortedState.sortedBy}</p>}
         {selectedAlgorithm?.id === "binary-search" && (
-          <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-yellow">Binary Search requires a sorted array.<br />يجب أن تكون المصفوفة مرتبة تصاعديًا للبحث الثنائي.</p>
+          <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-yellow">Binary Search requires a sorted array<br />يجب أن تكون المصفوفة مرتبة تصاعديًا للبحث الثنائي.</p>
         )}
-        {selectedAlgorithm?.id === "linear-search" || selectedAlgorithm?.id === "binary-search" ? (
+        {selectedAlgorithm?.id === "ternary-search" && (
+          <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-yellow">Ternary Search requires a sorted array<br />يجب أن تكون المصفوفة مرتبة تصاعديًا للبحث الثلاثي.</p>
+        )}
+        {selectedAlgorithm?.id === "linear-search" || selectedAlgorithm?.id === "binary-search" || selectedAlgorithm?.id === "ternary-search" ? (
           <div className="border-t border-border-subtle p-3">
             <label className="flex items-center justify-between gap-2 text-[11px] text-text-secondary">
               <span>القيمة الهدف</span>

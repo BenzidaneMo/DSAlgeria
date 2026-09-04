@@ -21,7 +21,7 @@ export default function AppShell() {
   }, [player.currentStep, selectedAlgorithm]);
 
   function getAlgorithmInput(algorithm, nextArray = array, nextTarget = target) {
-    return algorithm.id === "linear-search" ? { array: nextArray, target: nextTarget } : algorithm.id === "binary-search" ? { sortedArray: sortedState.sortedArray, isSorted: sortedState.isSorted, sortedBy: sortedState.sortedBy, target: nextTarget } : nextArray;
+    return algorithm.id === "linear-search" ? { array: nextArray, target: nextTarget } : algorithm.id === "binary-search" || algorithm.id === "ternary-search" ? { sortedArray: sortedState.sortedArray, isSorted: sortedState.isSorted, sortedBy: sortedState.sortedBy, target: nextTarget } : nextArray;
   }
 
   function selectAlgorithm(algorithm) {
@@ -33,7 +33,7 @@ export default function AppShell() {
     setArray(nextArray);
     setSortedState({ sortedArray: [], isSorted: false, sortedBy: null });
     if (selectedAlgorithm) {
-      const input = selectedAlgorithm.id === "binary-search"
+      const input = selectedAlgorithm.id === "binary-search" || selectedAlgorithm.id === "ternary-search"
         ? { sortedArray: [], isSorted: false, sortedBy: null, target }
         : getAlgorithmInput(selectedAlgorithm, nextArray);
       setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input }));
@@ -50,7 +50,7 @@ export default function AppShell() {
         steps={steps}
         currentStepIndex={player.currentStepIndex}
         executionLog={player.executionLog}
-        array={selectedAlgorithm?.id === "binary-search" && sortedState.isSorted ? sortedState.sortedArray : array}
+        array={selectedAlgorithm?.id === "binary-search" || selectedAlgorithm?.id === "ternary-search" ? (sortedState.isSorted ? sortedState.sortedArray : array) : array}
         originalArray={array}
         sortedState={sortedState}
 
@@ -58,7 +58,7 @@ export default function AppShell() {
         target={target}
         onTargetChange={(nextTarget) => {
           setTarget(nextTarget);
-          if (selectedAlgorithm?.id === "linear-search" || selectedAlgorithm?.id === "binary-search") {
+          if (selectedAlgorithm?.id === "linear-search" || selectedAlgorithm?.id === "binary-search" || selectedAlgorithm?.id === "ternary-search") {
             setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, array, nextTarget) }));
           }
         }}

@@ -1,5 +1,6 @@
 import { BUBBLE_SORT_METADATA } from "../algorithms/sorting/bubbleSort";
 import { BINARY_SEARCH_METADATA } from "../algorithms/searching/binarySearch";
+import { TERNARY_SEARCH_METADATA } from "../algorithms/searching/ternarySearch";
 import { LINEAR_SEARCH_METADATA } from "../algorithms/searching/linearSearch";
 import { INSERTION_SORT_METADATA } from "../algorithms/sorting/insertionSort";
 import { MERGE_SORT_METADATA } from "../algorithms/sorting/mergeSort";
@@ -24,7 +25,7 @@ export const ALGORITHM_CATEGORIES = [
     algorithms: [
       { id: "linear-search", ...LINEAR_SEARCH_METADATA },
       { id: "binary-search", ...BINARY_SEARCH_METADATA },
-      { id: "ternary-search", name: "البحث الثلاثي", englishName: "Ternary Search" },
+      { id: "ternary-search", ...TERNARY_SEARCH_METADATA },
     ],
   },
   {

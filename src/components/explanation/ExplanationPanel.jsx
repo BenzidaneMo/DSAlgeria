@@ -8,6 +8,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
   const metadata = currentStep?.metadata;
   const searchDetails = metadata?.target !== null && metadata?.target !== undefined;
   const binarySearchDetails = Number.isInteger(metadata?.left) || Number.isInteger(metadata?.middle) || Number.isInteger(metadata?.right);
+  const ternarySearchDetails = Number.isInteger(metadata?.mid1) || Number.isInteger(metadata?.mid2);
 
   return (
     <section className="min-h-0 col-span-2 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
@@ -42,12 +43,18 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
                   <span>right: [{metadata.rightSubarray.join(", ")}]</span>
                 </div>
               )}
-              {binarySearchDetails && (
+                                          {ternarySearchDetails && (
+                <div className="mt-2 grid grid-cols-4 gap-2 font-mono text-[10px] text-text-muted" dir="ltr">
+                  <span>left: {metadata.left}</span><span>mid1: {metadata.mid1}</span><span>mid2: {metadata.mid2}</span><span>right: {metadata.right}</span>
+                </div>
+              )}
+              {binarySearchDetails && !ternarySearchDetails && (
                 <div className="mt-2 grid grid-cols-3 gap-2 font-mono text-[10px] text-text-muted" dir="ltr">
                   <span>left: {metadata.left}</span><span>middle: {metadata.middle ?? "-"}</span><span>right: {metadata.right}</span>
                 </div>
               )}
               {metadata?.eliminatedRange && <p className="mt-2 text-[10px] text-accent-orange">نستبعد المجال من {metadata.eliminatedRange.start} إلى {metadata.eliminatedRange.end}</p>}
+              {metadata?.eliminatedRanges?.length > 0 && <p className="mt-2 text-[10px] text-accent-orange">تم استبعاد {metadata.eliminatedRanges.length} مجال من البحث</p>}
             </div>
           )}
 

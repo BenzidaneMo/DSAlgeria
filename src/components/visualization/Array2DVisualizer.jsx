@@ -37,7 +37,17 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
           ? index >= currentSearchRange.start && index <= currentSearchRange.end
           : true;
         const isEliminated = eliminatedIndices.includes(index);
-        const pointerRole = searchPointers.left === index ? "يسار" : searchPointers.middle === index ? "وسط" : searchPointers.right === index ? "يمين" : null;
+        const pointerRole = searchPointers.left === index
+          ? "left"
+          : searchPointers.mid1 === index
+            ? "mid1"
+            : searchPointers.mid2 === index
+              ? "mid2"
+              : searchPointers.middle === index
+                ? "middle"
+                : searchPointers.right === index
+                  ? "right"
+                  : null;
         const barColor = foundIndices.includes(index)
           ? "border-accent-green bg-accent-green/30 text-accent-green"
           : isFinalized
