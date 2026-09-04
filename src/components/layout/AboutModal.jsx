@@ -20,8 +20,8 @@ export default function AboutModal({ onClose }) {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[99] flex items-start justify-center bg-black/50 px-4 pt-28" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section ref={dialogRef} tabIndex="-1" role="dialog" aria-modal="true" aria-labelledby="about-heading" className="w-full max-w-md border rounded-lg  border-border bg-bg-panel shadow-2xl outline-none">
+    <div className="fixed inset-0 z-[99] flex items-start justify-center bg-black/50 px-4" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section ref={dialogRef} tabIndex="-1" role="dialog" aria-modal="true" aria-labelledby="about-heading" className="w-full max-w-md border rounded-lg mt-28 border-border bg-bg-panel shadow-2xl outline-none">
         <header className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
           <h2 id="about-heading" className="text-sm font-semibold text-text-primary">حول DSAlgeria</h2>
           <button type="button" onClick={onClose} className="flex h-7 w-7 items-center justify-center text-text-muted hover:bg-bg-hover hover:text-text-primary" aria-label="إغلاق النافذة">
