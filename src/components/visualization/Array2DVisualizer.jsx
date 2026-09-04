@@ -14,7 +14,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   const values = currentArray.length > 0 ? currentArray : [0];
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
-  const { activeIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
+  const { activeIndices, partitionIndices, pivotIndex, pointerIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
 
   if (currentArray.length === 0) {
     return (
@@ -30,12 +30,21 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
       {currentArray.map((value, index) => {
         const isActive = activeIndices.includes(index);
         const isFinalized = finalizedIndices.includes(index);
+        const isPivot = pivotIndex === index && !isFinalized;
+        const isPointer = pointerIndices.includes(index);
+        const isInPartition = partitionIndices.includes(index) && !isFinalized;
         const barColor = isFinalized
           ? "border-accent-green bg-accent-green/30 text-accent-green"
           : isActive && operation === STEP_OPERATIONS.SWAP
             ? "border-accent-orange bg-accent-orange/30 text-accent-orange"
+            : isPivot
+              ? "border-accent-purple bg-accent-purple/30 text-accent-purple"
             : isActive && shiftedIndices.includes(index)
               ? "border-accent-yellow bg-accent-yellow/30 text-accent-yellow"
+            : isPointer
+              ? "border-accent-blue-bright bg-accent-blue/20 text-accent-blue-bright"
+            : isInPartition
+              ? "border-accent-purple/50 bg-accent-purple/10 text-text-secondary"
             : isActive
               ? "border-accent-blue bg-accent-blue/30 text-accent-blue"
               : "border-border bg-bg-elevated text-text-secondary";

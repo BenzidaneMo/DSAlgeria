@@ -81,6 +81,17 @@ export function getStepVisualState(step) {
     swappedIndices: operation === STEP_OPERATIONS.SWAP ? indices : [],
     shiftedIndices: operation === STEP_OPERATIONS.SHIFT ? indices : [],
     sortedIndices: step?.finalizedIndices ?? [],
+    partitionIndices: getRangeIndices(step?.metadata?.currentSubarray),
+    pivotIndex: Number.isInteger(step?.metadata?.pivotIndex) ? step.metadata.pivotIndex : null,
+    pointerIndices: [step?.metadata?.leftPointer, step?.metadata?.rightPointer].filter(Number.isInteger),
     operation,
   };
+}
+
+function getRangeIndices(range) {
+  if (!range || !Number.isInteger(range.start) || !Number.isInteger(range.end) || range.end < range.start) {
+    return [];
+  }
+
+  return Array.from({ length: range.end - range.start + 1 }, (_, offset) => range.start + offset);
 }
