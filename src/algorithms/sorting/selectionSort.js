@@ -38,46 +38,54 @@ export function generateSelectionSortSteps(input = []) {
   const steps = [];
   const finalizedIndices = [];
 
+  // FIX: clone `array` and `finalizedIndices` on every step so each
+  // snapshot is truly immutable. Previously all steps shared the same
+  // array/finalizedIndices references, which were mutated in place
+  // (swaps on `array`, `finalizedIndices.push(position)` at the end of
+  // every outer-loop iteration) — so every already-pushed step silently
+  // reflected later state instead of its own moment in the algorithm.
+  function addStep(step) {
+    steps.push(createStep({
+      array: [...array],
+      finalizedIndices: [...finalizedIndices],
+      ...step,
+    }));
+  }
+
   for (let position = 0; position < array.length - 1; position += 1) {
     let minimumIndex = position;
 
-    steps.push(createStep({
+    addStep({
       operation: STEP_TYPES.SELECT,
-      array,
-      finalizedIndices,
       indices: [position],
       codeLine: 5,
       message: `نختار الموضع ${position} لملئه بأصغر عنصر من الجزء غير المرتب`,
       metadata: { phase: "position", position, minimumIndex },
-    }));
+    });
 
     for (let index = position + 1; index < array.length; index += 1) {
       const minimumValue = array[minimumIndex];
       const candidateValue = array[index];
       const isNewMinimum = candidateValue < minimumValue;
 
-      steps.push(createStep({
+      addStep({
         operation: STEP_TYPES.COMPARE,
-        array,
-        finalizedIndices,
         indices: [minimumIndex, index],
         codeLine: 8,
         message: `نقارن ${candidateValue} مع أصغر قيمة حالية ${minimumValue}`,
         comparison: { left: minimumValue, right: candidateValue, outOfOrder: isNewMinimum },
         metadata: { phase: "minimum-search", position, minimumIndex, candidateIndex: index },
-      }));
+      });
 
       if (isNewMinimum) {
         minimumIndex = index;
-        steps.push(createStep({
+        addStep({
           operation: STEP_TYPES.UPDATE,
-          array,
-          finalizedIndices,
           indices: [minimumIndex],
           codeLine: 9,
           message: `نحدّث أصغر عنصر إلى القيمة ${array[minimumIndex]}`,
           metadata: { phase: "minimum-update", position, minimumIndex, minimumValue: array[minimumIndex] },
-        }));
+        });
       }
     }
 
@@ -85,33 +93,29 @@ export function generateSelectionSortSteps(input = []) {
       const positionValue = array[position];
       const minimumValue = array[minimumIndex];
       [array[position], array[minimumIndex]] = [array[minimumIndex], array[position]];
-      steps.push(createStep({
+      addStep({
         operation: STEP_TYPES.SWAP,
-        array,
-        finalizedIndices,
         indices: [position, minimumIndex],
         codeLine: 12,
         message: `نبدّل ${positionValue} مع أصغر قيمة ${minimumValue}`,
         swap: { from: position, to: minimumIndex },
         metadata: { phase: "place-minimum", position, minimumIndex },
-      }));
+      });
     }
 
     finalizedIndices.push(position);
-    steps.push(createStep({
+    addStep({
       operation: STEP_TYPES.SELECT,
-      array,
-      finalizedIndices,
       indices: [position],
       codeLine: null,
       message: `تم تثبيت العنصر في الموضع ${position}`,
       metadata: { phase: "sorted", sortedIndex: position },
-    }));
+    });
   }
 
   steps.push(createStep({
     operation: STEP_TYPES.COMPLETE,
-    array,
+    array: [...array],
     finalizedIndices: array.map((_, index) => index),
     codeLine: null,
     message: "اكتمل الترتيب بالاختيار بنجاح",
