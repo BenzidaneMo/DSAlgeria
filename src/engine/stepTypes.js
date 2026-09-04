@@ -79,6 +79,7 @@ export function getStepVisualState(step) {
     activeIndices: indices,
     comparedIndices: operation === STEP_OPERATIONS.COMPARE ? indices : [],
     swappedIndices: operation === STEP_OPERATIONS.SWAP ? indices : [],
+    shiftedIndices: operation === STEP_OPERATIONS.SHIFT ? indices : [],
     sortedIndices: step?.finalizedIndices ?? [],
     operation,
   };

@@ -1,4 +1,5 @@
 import { generateBubbleSortSteps } from "./sorting/bubbleSort";
+import { generateInsertionSortSteps } from "./sorting/insertionSort";
 import { generateSelectionSortSteps } from "./sorting/selectionSort";
 
 const EMPTY_GENERATOR = () => [];
@@ -6,7 +7,7 @@ const EMPTY_GENERATOR = () => [];
 export const ALGORITHM_GENERATORS = Object.freeze({
   "bubble-sort": generateBubbleSortSteps,
   "selection-sort": generateSelectionSortSteps,
-  "insertion-sort": EMPTY_GENERATOR,
+  "insertion-sort": generateInsertionSortSteps,
   "merge-sort": EMPTY_GENERATOR,
   "quick-sort": EMPTY_GENERATOR,
   "linear-search": EMPTY_GENERATOR,

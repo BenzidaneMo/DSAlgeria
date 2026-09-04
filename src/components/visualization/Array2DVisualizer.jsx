@@ -14,7 +14,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   const values = currentArray.length > 0 ? currentArray : [0];
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
-  const { activeIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
+  const { activeIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
 
   if (currentArray.length === 0) {
     return (
@@ -34,6 +34,8 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
           ? "border-accent-green bg-accent-green/30 text-accent-green"
           : isActive && operation === STEP_OPERATIONS.SWAP
             ? "border-accent-orange bg-accent-orange/30 text-accent-orange"
+            : isActive && shiftedIndices.includes(index)
+              ? "border-accent-yellow bg-accent-yellow/30 text-accent-yellow"
             : isActive
               ? "border-accent-blue bg-accent-blue/30 text-accent-blue"
               : "border-border bg-bg-elevated text-text-secondary";
