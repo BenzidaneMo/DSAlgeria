@@ -41,8 +41,18 @@ export function generateQuickSortSteps(input = []) {
   const steps = [];
   const finalizedIndices = [];
 
+  // FIX #1: clone `array` and `finalizedIndices` on every step so each
+  // snapshot is truly immutable. Previously all steps shared the same
+  // array/finalizedIndices references, which were mutated in place during
+  // the recursion — scrubbing back to an earlier step would incorrectly
+  // show a later (or final) state of the array instead of that step's
+  // actual state.
   function addStep(step) {
-    steps.push(createStep({ array, finalizedIndices, ...step }));
+    steps.push(createStep({
+      array: [...array],
+      finalizedIndices: [...finalizedIndices],
+      ...step,
+    }));
   }
 
   function markCompleted(index) {
@@ -105,14 +115,18 @@ export function generateQuickSortSteps(input = []) {
 
       if (belongsLeft) {
         if (leftPointer !== rightPointer) {
+          // FIX #3: capture both pre-swap values before mutating, so the
+          // narration message reflects what is actually being swapped
+          // rather than reading the array after the swap already happened.
           const leftValue = array[leftPointer];
-          array[leftPointer] = array[rightPointer];
+          const rightValue = array[rightPointer];
+          array[leftPointer] = rightValue;
           array[rightPointer] = leftValue;
           addStep({
             operation: STEP_TYPES.SWAP,
             indices: [leftPointer, rightPointer],
             codeLine: 10,
-            message: `نبدّل ${array[rightPointer]} مع ${array[leftPointer]} ليبقى الأصغر قبل المحور`,
+            message: `نبدّل ${leftValue} مع ${rightValue} ليبقى الأصغر قبل المحور`,
             swap: { from: leftPointer, to: rightPointer },
             metadata: { phase: "partition-swap", currentSubarray, pivotIndex, leftPointer, rightPointer, depth },
           });
@@ -120,11 +134,16 @@ export function generateQuickSortSteps(input = []) {
         leftPointer += 1;
       }
 
+      // FIX #2: message previously labeled leftPointer as "المؤشر الأيمن"
+      // (right pointer) and rightPointer+1 as "المؤشر الأيسر" (left
+      // pointer) — the labels were swapped relative to the variable names.
+      // leftPointer is the left/boundary pointer; rightPointer is the
+      // right/scanning pointer.
       addStep({
         operation: STEP_TYPES.UPDATE,
         indices: [leftPointer, rightPointer],
         codeLine: 11,
-        message: `نواصل البحث: المؤشر الأيمن ${leftPointer} والمؤشر الأيسر ${rightPointer + 1}`,
+        message: `نواصل البحث: المؤشر الأيسر ${leftPointer} والمؤشر الأيمن ${rightPointer + 1}`,
         metadata: { phase: "pointer-update", currentSubarray, pivotIndex, leftPointer, rightPointer: rightPointer + 1, depth },
       });
     }
@@ -158,7 +177,10 @@ export function generateQuickSortSteps(input = []) {
     addStep({
       operation: STEP_TYPES.RETURN,
       indices: [low, high],
-      codeLine: 16,
+      // FIX #4: sourceCode only has 15 lines; the final recursive call is
+      // line 15. codeLine 16 pointed past the end of the source, so the
+      // code-highlight would show nothing (or crash) on this step.
+      codeLine: 15,
       message: `اكتمل ترتيب الجزء من ${low} إلى ${high}`,
       metadata: { phase: "return", currentSubarray, pivotIndex: leftPointer, depth },
     });
@@ -167,7 +189,7 @@ export function generateQuickSortSteps(input = []) {
   quickSort(0, array.length - 1, 0);
   steps.push(createStep({
     operation: STEP_TYPES.COMPLETE,
-    array,
+    array: [...array],
     finalizedIndices: array.map((_, index) => index),
     codeLine: null,
     message: "اكتمل الترتيب السريع بنجاح",
