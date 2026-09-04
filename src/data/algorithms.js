@@ -1,4 +1,5 @@
 import { BUBBLE_SORT_METADATA } from "../algorithms/sorting/bubbleSort";
+import { SELECTION_SORT_METADATA } from "../algorithms/sorting/selectionSort";
 
 export const ALGORITHM_CATEGORIES = [
   {
@@ -6,7 +7,7 @@ export const ALGORITHM_CATEGORIES = [
     name: "خوارزميات الترتيب",
     algorithms: [
       { id: "bubble-sort", ...BUBBLE_SORT_METADATA },
-      { id: "selection-sort", name: "ترتيب الاختيار", englishName: "Selection Sort" },
+      { id: "selection-sort", ...SELECTION_SORT_METADATA },
       { id: "insertion-sort", name: "ترتيب الإدراج", englishName: "Insertion Sort" },
       { id: "merge-sort", name: "ترتيب الدمج", englishName: "Merge Sort" },
       { id: "quick-sort", name: "الترتيب السريع", englishName: "Quick Sort" },
