@@ -1,3 +1,5 @@
+import { getStepVisualState } from "../engine/stepTypes";
+
 const COLORS = {
   background: "#1e1e1e",
   panel: "#252526",
@@ -15,9 +17,7 @@ export function renderArray2DFrame(canvas, step, { width, height } = {}) {
   const values = step?.array ?? [];
   const frameWidth = width ?? canvas.width;
   const frameHeight = height ?? canvas.height;
-  const activeIndices = step?.indices ?? [];
-  const sortedIndices = step?.finalizedIndices ?? [];
-  const swappedIndices = step?.type === "swap" ? activeIndices : [];
+  const { activeIndices, sortedIndices, swappedIndices } = getStepVisualState(step);
 
   if (canvas.width !== frameWidth || canvas.height !== frameHeight) {
     canvas.width = frameWidth;

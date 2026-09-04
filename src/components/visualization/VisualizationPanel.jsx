@@ -1,19 +1,15 @@
 import { Video } from "lucide-react";
 import { useRef, useState } from "react";
+import { getStepOperation } from "../../engine/stepTypes";
 import { createCanvasCaptureSource, createRecordingProfile, createVideoRecordingSession } from "../../recording";
 import { renderArray2DFrame } from "../../recording/array2DVideoRenderer";
 import Array2DVisualizer from "./Array2DVisualizer";
 import Array3DVisualizer from "./Array3DVisualizer";
 import ExecutionLog from "./ExecutionLog";
 import SourceCodePanel from "./SourceCodePanel";
+import { STEP_OPERATION_LABELS } from "./stepPresentation";
 import VisualizationToolbar from "./VisualizationToolbar";
 import VideoGenerationModal from "./VideoGenerationModal";
-
-const OPERATION_LABELS = {
-  compare: "مقارنة",
-  swap: "تبديل",
-  complete: "اكتمل الترتيب",
-};
 
 export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [], onCanvasReady }) {
   const [mode, setMode] = useState("2d");
@@ -24,7 +20,8 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
   const [, setRecordingCanvas] = useState(null);
   const recordingCanvasRef = useRef(null);
   const [recordingSize, setRecordingSize] = useState({ width: 1280, height: 720 });
-  const operationLabel = currentStep ? OPERATION_LABELS[currentStep.type] ?? currentStep.operation : "جاهز للتشغيل";
+  const operation = getStepOperation(currentStep);
+  const operationLabel = currentStep ? STEP_OPERATION_LABELS[operation] ?? operation : "جاهز للتشغيل";
 
   function closeVideoModal() {
     if (videoStatus.url) {

@@ -48,7 +48,7 @@ export function generateBubbleSortSteps(input = []) {
       const outOfOrder = left > right;
 
       steps.push(createStep({
-        type: STEP_TYPES.COMPARE,
+        operation: STEP_TYPES.COMPARE,
         array,
         finalizedIndices,
         indices: [index, index + 1],
@@ -61,7 +61,7 @@ export function generateBubbleSortSteps(input = []) {
         [array[index], array[index + 1]] = [array[index + 1], array[index]];
         swapped = true;
         steps.push(createStep({
-          type: STEP_TYPES.SWAP,
+          operation: STEP_TYPES.SWAP,
           array,
           finalizedIndices,
           indices: [index, index + 1],
@@ -83,7 +83,7 @@ export function generateBubbleSortSteps(input = []) {
   }
 
   steps.push(createStep({
-    type: STEP_TYPES.COMPLETE,
+    operation: STEP_TYPES.COMPLETE,
     array,
     finalizedIndices: array.map((_, index) => index),
     codeLine: null,

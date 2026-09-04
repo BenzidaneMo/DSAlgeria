@@ -2,6 +2,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { getStepVisualState } from "../../engine/stepTypes";
 import Array3DScene, { getArray3DLayout } from "./Array3DScene";
 
 const CAMERA_FOV = 42;
@@ -32,14 +33,7 @@ export default function Array3DVisualizer({ array = [], currentStep, currentStep
   const values = currentStep?.array?.length ? currentStep.array : array;
   const [resetToken, setResetToken] = useState(0);
   const controlsRef = useRef();
-  const visualizationState = {
-    values,
-    activeIndices: currentStep?.indices ?? [],
-    comparedIndices: currentStep?.type === "compare" ? currentStep.indices ?? [] : [],
-    swappedIndices: currentStep?.type === "swap" ? currentStep.indices ?? [] : [],
-    sortedIndices: currentStep?.finalizedIndices ?? [],
-    operation: currentStep?.type ?? null,
-  };
+  const visualizationState = getStepVisualState(currentStep);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#15191d]" aria-label="التصور ثلاثي الأبعاد للمصفوفة">

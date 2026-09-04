@@ -1,4 +1,5 @@
 import { BarChart3 } from "lucide-react";
+import { getStepVisualState, STEP_OPERATIONS } from "../../engine/stepTypes";
 
 function getBarHeight(value, minimum, maximum) {
   if (minimum === maximum) {
@@ -13,8 +14,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   const values = currentArray.length > 0 ? currentArray : [0];
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
-  const activeIndices = currentStep?.indices ?? [];
-  const finalizedIndices = currentStep?.finalizedIndices ?? [];
+  const { activeIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
 
   if (currentArray.length === 0) {
     return (
@@ -32,7 +32,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
         const isFinalized = finalizedIndices.includes(index);
         const barColor = isFinalized
           ? "border-accent-green bg-accent-green/30 text-accent-green"
-          : isActive && currentStep?.type === "swap"
+          : isActive && operation === STEP_OPERATIONS.SWAP
             ? "border-accent-orange bg-accent-orange/30 text-accent-orange"
             : isActive
               ? "border-accent-blue bg-accent-blue/30 text-accent-blue"

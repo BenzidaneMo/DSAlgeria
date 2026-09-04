@@ -1,43 +1,85 @@
 /**
+ * A generated step describes one algorithm event. Consumers should use
+ * `operation`, `indices`, `array`, and `metadata`; `type` remains as a
+ * backwards-compatible alias for existing integrations.
+ *
  * @typedef {Object} AlgorithmStep
- * @property {"compare"|"swap"|"visit"|"insert"|"remove"|"complete"|"custom"} type
- * @property {number[]} [indices]
- * @property {number[]} [array]
- * @property {number[]} [finalizedIndices]
+ * @property {StepOperation} operation
+ * @property {StepOperation} type
+ * @property {number[]} indices
+ * @property {number[]} array
+ * @property {number[]} finalizedIndices
  * @property {number|null} codeLine
- * @property {string} [operation]
- * @property {string} [message]
- * @property {{left: number, right: number, outOfOrder: boolean}} [comparison]
- * @property {{from: number, to: number}} [swap]
- * @property {Object} [payload]
+ * @property {string|null} message
+ * @property {Object|null} metadata
+ * @property {{left: number, right: number, outOfOrder: boolean}|null} comparison
+ * @property {{from: number, to: number}|null} swap
  */
 
+/** @typedef {"compare"|"swap"|"select"|"shift"|"insert"|"split"|"merge"|"found"|"notFound"|"visit"|"update"|"partition"|"recursiveCall"|"return"|"complete"|"custom"} StepOperation */
+
 /** @param {AlgorithmStep} step */
-export function createStep(step) {
+export function createStep(step = {}) {
+  const operation = step.operation ?? step.type ?? STEP_OPERATIONS.CUSTOM;
+
   return Object.freeze({
-    type: step.type,
+    operation,
+    // Keep the old property available while algorithms migrate to operation.
+    type: step.type ?? operation,
     indices: step.indices ? [...step.indices] : [],
     array: step.array ? [...step.array] : [],
     finalizedIndices: step.finalizedIndices ? [...step.finalizedIndices] : [],
     codeLine: step.codeLine ?? null,
-    operation: step.operation ?? step.type,
     message: step.message ?? null,
+    metadata: step.metadata ?? step.payload ?? null,
     comparison: step.comparison ?? null,
     swap: step.swap ?? null,
-    payload: step.payload ?? null,
+    payload: step.payload ?? step.metadata ?? null,
   });
 }
 
-export function createCompleteStep() {
-  return createStep({ type: "complete", codeLine: null });
+export function createCompleteStep(step = {}) {
+  return createStep({ ...step, operation: STEP_OPERATIONS.COMPLETE, type: STEP_OPERATIONS.COMPLETE, codeLine: step.codeLine ?? null });
 }
 
-export const STEP_TYPES = Object.freeze({
+export const STEP_OPERATIONS = Object.freeze({
   COMPARE: "compare",
   SWAP: "swap",
-  VISIT: "visit",
+  SELECT: "select",
+  SHIFT: "shift",
   INSERT: "insert",
+  SPLIT: "split",
+  MERGE: "merge",
+  FOUND: "found",
+  NOT_FOUND: "notFound",
+  VISIT: "visit",
+  UPDATE: "update",
+  PARTITION: "partition",
+  RECURSIVE_CALL: "recursiveCall",
+  RETURN: "return",
   REMOVE: "remove",
   COMPLETE: "complete",
   CUSTOM: "custom",
 });
+
+// STEP_TYPES is retained for existing algorithm modules.
+export const STEP_TYPES = STEP_OPERATIONS;
+
+/** @param {AlgorithmStep|null|undefined} step */
+export function getStepOperation(step) {
+  return step?.operation ?? step?.type ?? null;
+}
+
+/** @param {AlgorithmStep|null|undefined} step */
+export function getStepVisualState(step) {
+  const operation = getStepOperation(step);
+  const indices = step?.indices ?? [];
+
+  return {
+    activeIndices: indices,
+    comparedIndices: operation === STEP_OPERATIONS.COMPARE ? indices : [],
+    swappedIndices: operation === STEP_OPERATIONS.SWAP ? indices : [],
+    sortedIndices: step?.finalizedIndices ?? [],
+    operation,
+  };
+}

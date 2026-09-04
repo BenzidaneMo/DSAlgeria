@@ -1,15 +1,11 @@
 import { Check, Circle, GitCompareArrows, MoveRight } from "lucide-react";
+import { getStepOperation, STEP_OPERATIONS } from "../../engine/stepTypes";
+import { STEP_OPERATION_LABELS } from "./stepPresentation";
 
 const OPERATION_ICONS = {
   compare: GitCompareArrows,
   swap: MoveRight,
   complete: Check,
-};
-
-const OPERATION_LABELS = {
-  compare: "مقارنة",
-  swap: "تبديل",
-  complete: "اكتمال",
 };
 
 export default function ExecutionLog({ executionLog = [], currentStepIndex, totalSteps = 0 }) {
@@ -27,13 +23,15 @@ export default function ExecutionLog({ executionLog = [], currentStepIndex, tota
           <p className="px-2 py-3 text-[11px] text-text-muted">سيظهر سير الخوارزمية هنا عند التشغيل.</p>
         ) : (
           <ol className="flex flex-col gap-1">
-            {visibleSteps.map(({ step, stepIndex }) => {
-              const Icon = OPERATION_ICONS[step.type] ?? Circle;
-              const label = OPERATION_LABELS[step.type] ?? step.operation;
+                        {visibleSteps.map(({ step, stepIndex }) => {
+              const operation = getStepOperation(step);
+
+              const Icon = OPERATION_ICONS[operation] ?? Circle;
+              const label = STEP_OPERATION_LABELS[operation] ?? operation;
 
               return (
-                <li key={`${stepIndex}-${step.type}`} className={`flex items-start gap-2 border-s-2 px-2 py-1.5 ${stepIndex === currentStepIndex ? "border-accent-blue bg-bg-elevated" : "border-transparent"}`}>
-                  <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${step.type === "swap" ? "text-accent-orange" : step.type === "complete" ? "text-accent-green" : "text-accent-blue"}`} strokeWidth={1.8} />
+                                <li key={`${stepIndex}-${operation}`} className={`flex items-start gap-2 border-s-2 px-2 py-1.5 ${stepIndex === currentStepIndex ? "border-accent-blue bg-bg-elevated" : "border-transparent"}`}>
+                  <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${operation === STEP_OPERATIONS.SWAP ? "text-accent-orange" : operation === STEP_OPERATIONS.COMPLETE ? "text-accent-green" : "text-accent-blue"}`} strokeWidth={1.8} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[10px] text-text-muted">الخطوة {stepIndex + 1} · {label}</span>
