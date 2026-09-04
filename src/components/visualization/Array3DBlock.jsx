@@ -36,21 +36,29 @@ export default function Array3DBlock({ value, index, height, width = 0.9, depth 
   const isCompared = state.comparedIndices.includes(index) || state.activeIndices.includes(index);
   const isSwapping = state.swappedIndices.includes(index);
   const isShifting = state.shiftedIndices.includes(index);
+  const isEliminated = state.eliminatedIndices.includes(index);
+  const isInSearchRange = state.currentSearchRange
+    ? index >= state.currentSearchRange.start && index <= state.currentSearchRange.end
+    : true;
   const isFound = state.foundIndices.includes(index);
   const isSorted = state.sortedIndices.includes(index);
   const isActive = state.activeIndices.includes(index);
   const isPivot = state.pivotIndex === index && !isSorted;
   const isInPartition = state.partitionIndices.includes(index) && !isSorted;
   const isPointer = state.pointerIndices.includes(index);
+  const pointerLabel = state.searchPointers.left === index ? "يسار" : state.searchPointers.middle === index ? "وسط" : state.searchPointers.right === index ? "يمين" : null;
   const color = getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isFound, isActive, isPivot, isInPartition, isPointer });
 
   return (
     <Array3DAnimation targetX={x} targetY={isActive ? 0.1 : 0} isSwapping={isSwapping} swapStartX={swapStartX} stepIndex={stepIndex}>
+      <group scale={isEliminated || !isInSearchRange ? 0.82 : 1}>
+
       <mesh position={[0, height / 2 + 0.16, 0]} castShadow receiveShadow>
         <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial color={color} roughness={0.72} metalness={0.08} />
       </mesh>
-      <Array3DLabels value={value} height={height} fontSize={labelSize} color={isActive || isSorted ? color : "#d4d4d4"} />
+      <Array3DLabels value={value} height={height} fontSize={labelSize} color={isFound || isActive || isSorted ? color : "#d4d4d4"} pointerLabel={pointerLabel} />
+      </group>
     </Array3DAnimation>
   );
 }

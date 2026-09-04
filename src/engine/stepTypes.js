@@ -87,6 +87,13 @@ export function getStepVisualState(step) {
     currentIndex: Number.isInteger(step?.metadata?.currentIndex) ? step.metadata.currentIndex : null,
     targetValue: step?.metadata?.target ?? null,
     foundIndices: operation === STEP_OPERATIONS.FOUND ? indices : [],
+    currentSearchRange: step?.metadata?.currentSubarray ?? null,
+    eliminatedIndices: step?.metadata?.eliminatedIndices ?? [],
+    searchPointers: {
+      left: Number.isInteger(step?.metadata?.left) ? step.metadata.left : null,
+      middle: Number.isInteger(step?.metadata?.middle) ? step.metadata.middle : null,
+      right: Number.isInteger(step?.metadata?.right) ? step.metadata.right : null,
+    },
     operation,
   };
 }

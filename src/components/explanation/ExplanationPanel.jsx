@@ -7,6 +7,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
   const operation = getStepOperation(currentStep);
   const metadata = currentStep?.metadata;
   const searchDetails = metadata?.target !== null && metadata?.target !== undefined;
+  const binarySearchDetails = Number.isInteger(metadata?.left) || Number.isInteger(metadata?.middle) || Number.isInteger(metadata?.right);
 
   return (
     <section className="min-h-0 col-span-2 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
@@ -21,9 +22,10 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
             <h1 className="text-base font-semibold text-text-primary">{selectedAlgorithm.name}</h1>
             <p className="mt-1 font-mono text-[11px] text-accent-blue">{selectedAlgorithm.englishName}</p>
             <p className="mt-3 text-xs leading-6 text-text-secondary">{selectedAlgorithm.description}</p>
-          </div>
+                    </div>
+          {selectedAlgorithm.requirement && <p className="mt-3 border-s-2 border-accent-yellow px-3 py-2 text-[11px] leading-5 text-accent-yellow">{selectedAlgorithm.requirement}</p>}
 
-                                        {searchDetails && (
+          {searchDetails && (
             <div className="mt-4 border-b border-border-subtle pb-4 text-xs">
               <div className="flex items-center justify-between"><span className="text-text-muted">القيمة الهدف</span><strong className="font-mono text-accent-yellow">{metadata.target}</strong></div>
               {metadata.currentIndex !== null && <div className="mt-2 flex items-center justify-between"><span className="text-text-muted">العنصر الحالي</span><strong className="font-mono text-accent-blue">{metadata.currentValue} · الموضع {metadata.currentIndex}</strong></div>}
@@ -40,6 +42,12 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
                   <span>right: [{metadata.rightSubarray.join(", ")}]</span>
                 </div>
               )}
+              {binarySearchDetails && (
+                <div className="mt-2 grid grid-cols-3 gap-2 font-mono text-[10px] text-text-muted" dir="ltr">
+                  <span>left: {metadata.left}</span><span>middle: {metadata.middle ?? "-"}</span><span>right: {metadata.right}</span>
+                </div>
+              )}
+              {metadata?.eliminatedRange && <p className="mt-2 text-[10px] text-accent-orange">نستبعد المجال من {metadata.eliminatedRange.start} إلى {metadata.eliminatedRange.end}</p>}
             </div>
           )}
 
