@@ -14,7 +14,7 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
   const values = currentArray.length > 0 ? currentArray : [0];
   const minimum = Math.min(...values);
   const maximum = Math.max(...values);
-  const { activeIndices, partitionIndices, pivotIndex, pointerIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
+  const { activeIndices, foundIndices, partitionIndices, pivotIndex, pointerIndices, shiftedIndices, sortedIndices: finalizedIndices, operation } = getStepVisualState(currentStep);
 
   if (currentArray.length === 0) {
     return (
@@ -33,9 +33,11 @@ export default function Array2DVisualizer({ array = [], currentStep }) {
         const isPivot = pivotIndex === index && !isFinalized;
         const isPointer = pointerIndices.includes(index);
         const isInPartition = partitionIndices.includes(index) && !isFinalized;
-        const barColor = isFinalized
+                  const barColor = foundIndices.includes(index)
           ? "border-accent-green bg-accent-green/30 text-accent-green"
-          : isActive && operation === STEP_OPERATIONS.SWAP
+          : isFinalized
+            ? "border-accent-green bg-accent-green/30 text-accent-green"
+            : isActive && operation === STEP_OPERATIONS.SWAP
             ? "border-accent-orange bg-accent-orange/30 text-accent-orange"
             : isPivot
               ? "border-accent-purple bg-accent-purple/30 text-accent-purple"

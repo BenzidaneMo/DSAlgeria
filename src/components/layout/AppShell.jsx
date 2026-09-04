@@ -9,17 +9,22 @@ export default function AppShell() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
   const [array, setArray] = useState([5, 3, 8, 2, 7]);
   const [steps, setSteps] = useState([]);
+  const [target, setTarget] = useState(42);
   const player = useAlgorithmPlayer({ steps });
+
+  function getAlgorithmInput(algorithm, nextArray = array, nextTarget = target) {
+    return algorithm.id === "linear-search" ? { array: nextArray, target: nextTarget } : nextArray;
+  }
 
   function selectAlgorithm(algorithm) {
     setSelectedAlgorithm(algorithm);
-    setSteps(generateStepsForAlgorithm({ ...algorithm, input: array }));
+    setSteps(generateStepsForAlgorithm({ ...algorithm, input: getAlgorithmInput(algorithm) }));
   }
 
   function applyArray(nextArray) {
     setArray(nextArray);
     if (selectedAlgorithm) {
-      setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: nextArray }));
+      setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, nextArray) }));
     }
   }
 
@@ -35,6 +40,13 @@ export default function AppShell() {
         executionLog={player.executionLog}
         array={array}
         onApplyArray={applyArray}
+        target={target}
+        onTargetChange={(nextTarget) => {
+          setTarget(nextTarget);
+          if (selectedAlgorithm?.id === "linear-search") {
+            setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: { array, target: nextTarget } }));
+          }
+        }}
       />
       <ControlBar player={player} />
     </div>

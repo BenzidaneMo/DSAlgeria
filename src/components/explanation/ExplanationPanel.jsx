@@ -6,6 +6,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
     const complexity = selectedAlgorithm?.complexity;
   const operation = getStepOperation(currentStep);
   const metadata = currentStep?.metadata;
+  const searchDetails = metadata?.target !== null && metadata?.target !== undefined;
 
   return (
     <section className="min-h-0 col-span-2 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
@@ -22,7 +23,14 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
             <p className="mt-3 text-xs leading-6 text-text-secondary">{selectedAlgorithm.description}</p>
           </div>
 
-                              {currentStep?.message && (
+                                        {searchDetails && (
+            <div className="mt-4 border-b border-border-subtle pb-4 text-xs">
+              <div className="flex items-center justify-between"><span className="text-text-muted">القيمة الهدف</span><strong className="font-mono text-accent-yellow">{metadata.target}</strong></div>
+              {metadata.currentIndex !== null && <div className="mt-2 flex items-center justify-between"><span className="text-text-muted">العنصر الحالي</span><strong className="font-mono text-accent-blue">{metadata.currentValue} · الموضع {metadata.currentIndex}</strong></div>}
+            </div>
+          )}
+
+          {currentStep?.message && (
             <div className="mt-4 border-s-2 border-accent-blue bg-bg-inset px-3 py-2">
               <p className="text-[10px] text-accent-blue">{STEP_OPERATION_LABELS[operation] ?? operation}</p>
               <p className="mt-1 text-xs leading-5 text-text-secondary">{currentStep.message}</p>

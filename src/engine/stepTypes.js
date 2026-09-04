@@ -84,6 +84,9 @@ export function getStepVisualState(step) {
     partitionIndices: getRangeIndices(step?.metadata?.currentSubarray),
     pivotIndex: Number.isInteger(step?.metadata?.pivotIndex) ? step.metadata.pivotIndex : null,
     pointerIndices: [step?.metadata?.leftPointer, step?.metadata?.rightPointer].filter(Number.isInteger),
+    currentIndex: Number.isInteger(step?.metadata?.currentIndex) ? step.metadata.currentIndex : null,
+    targetValue: step?.metadata?.target ?? null,
+    foundIndices: operation === STEP_OPERATIONS.FOUND ? indices : [],
     operation,
   };
 }

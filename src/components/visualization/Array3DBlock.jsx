@@ -1,7 +1,10 @@
 import Array3DAnimation from "./Array3DAnimation";
 import Array3DLabels from "./Array3DLabels";
 
-function getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isActive, isPivot, isInPartition, isPointer }) {
+function getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isFound, isActive, isPivot, isInPartition, isPointer }) {
+  if (isFound) {
+    return "#6a9955";
+  }
   if (isSwapping) {
     return "#ce9178";
   }
@@ -33,12 +36,13 @@ export default function Array3DBlock({ value, index, height, width = 0.9, depth 
   const isCompared = state.comparedIndices.includes(index) || state.activeIndices.includes(index);
   const isSwapping = state.swappedIndices.includes(index);
   const isShifting = state.shiftedIndices.includes(index);
+  const isFound = state.foundIndices.includes(index);
   const isSorted = state.sortedIndices.includes(index);
   const isActive = state.activeIndices.includes(index);
   const isPivot = state.pivotIndex === index && !isSorted;
   const isInPartition = state.partitionIndices.includes(index) && !isSorted;
   const isPointer = state.pointerIndices.includes(index);
-  const color = getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isActive, isPivot, isInPartition, isPointer });
+  const color = getBlockColor({ isCompared, isSwapping, isShifting, isSorted, isFound, isActive, isPivot, isInPartition, isPointer });
 
   return (
     <Array3DAnimation targetX={x} targetY={isActive ? 0.1 : 0} isSwapping={isSwapping} swapStartX={swapStartX} stepIndex={stepIndex}>

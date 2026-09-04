@@ -1,3 +1,4 @@
+import { generateLinearSearchSteps } from "./searching/linearSearch";
 import { generateBubbleSortSteps } from "./sorting/bubbleSort";
 import { generateInsertionSortSteps } from "./sorting/insertionSort";
 import { generateMergeSortSteps } from "./sorting/mergeSort";
@@ -12,7 +13,7 @@ export const ALGORITHM_GENERATORS = Object.freeze({
   "insertion-sort": generateInsertionSortSteps,
   "merge-sort": generateMergeSortSteps,
   "quick-sort": generateQuickSortSteps,
-  "linear-search": EMPTY_GENERATOR,
+  "linear-search": generateLinearSearchSteps,
   "binary-search": EMPTY_GENERATOR,
   "ternary-search": EMPTY_GENERATOR,
   "breadth-first-search": EMPTY_GENERATOR,

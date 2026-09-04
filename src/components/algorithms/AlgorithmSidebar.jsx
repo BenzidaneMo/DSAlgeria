@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
 import { Pencil } from "lucide-react";
 
-export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm, array, setIsArrayEditorOpen }) {
+export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm, array, setIsArrayEditorOpen, target, onTargetChange }) {
   const [expandedCategory, setExpandedCategory] = useState("sorting");
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
@@ -74,6 +74,14 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
             })}
             {normalizedQuery && filteredCategories.length === 0 && <p className="px-4 py-4 text-xs text-text-muted">لم يتم العثور على خوارزمية.</p>}
         </div>
+        {selectedAlgorithm?.id === "linear-search" && (
+          <div className="border-t border-border-subtle p-3">
+            <label className="flex items-center justify-between gap-2 text-[11px] text-text-secondary">
+              <span>القيمة الهدف</span>
+              <input type="number" value={target} onChange={(event) => onTargetChange(Number(event.target.value))} className="h-7 w-20 border border-border-subtle bg-bg-inset px-2 text-center font-mono text-xs text-text-primary outline-none focus:border-accent-blue" aria-label="القيمة الهدف للبحث" />
+            </label>
+          </div>
+        )}
         <div className="self-end mx-auto mb-2 flex items-center justify-center rounded-md max-w-3xs 2xl:max-w-2xs gap-2 border border-border-subtle p-1.5 bg-bg-app">
             <div className="items-center justify-between gap-2 hidden 2xl:flex">
                 <h3 className="text-xs font-semibold text-text-primary">المصفوفة</h3>
