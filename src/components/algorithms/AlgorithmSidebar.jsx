@@ -23,7 +23,7 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
   }
 
   return (
-    <aside className="flex col-span-2 min-h-0 flex-col overflow-hidden border-s border-border bg-bg-panel" aria-labelledby="algorithms-heading">
+    <aside className="flex w-full min-h-0 flex-col overflow-hidden border-s border-border bg-bg-panel" aria-labelledby="algorithms-heading">
         <div className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
           <h2 id="algorithms-heading" className="text-xs font-semibold text-text-primary">الخوارزميات</h2>
           <ListTree className="h-4 w-4 text-accent-blue" strokeWidth={1.8} />

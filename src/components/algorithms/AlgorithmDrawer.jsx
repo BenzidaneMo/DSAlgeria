@@ -39,7 +39,7 @@ export default function AlgorithmDrawer({ selectedAlgorithm, onSelectAlgorithm, 
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-end" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setIsOpen(false)}>
-          <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/50" aria-hidden="true" onClick={() => setIsOpen(false)} />
           <div role="dialog" aria-modal="true" aria-label="اختيار خوارزمية" className="relative flex h-[85vh] w-full flex-col border-t border-border bg-bg-panel shadow-2xl">
             <div className="flex h-11 shrink-0 items-center justify-between border-b border-border-subtle px-4">
               <span className="text-xs font-semibold text-text-primary">اختر خوارزمية</span>
