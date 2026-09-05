@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { generateStepsForAlgorithm } from "../../algorithms";
 import { useAlgorithmPlayer } from "../../engine/algorithmPlayer";
 import { getStepOperation, STEP_OPERATIONS } from "../../engine/stepTypes";
-import ControlBar from "./ControlBar";
 import MainWorkspace from "./MainWorkspace";
 import Navbar from "./Navbar";
 
@@ -62,8 +61,8 @@ export default function AppShell() {
             setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, array, nextTarget) }));
           }
         }}
+        player={player}
       />
-      <ControlBar player={player} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ import { STEP_OPERATION_LABELS } from "./stepPresentation";
 import VisualizationToolbar from "./VisualizationToolbar";
 import VideoGenerationModal from "./VideoGenerationModal";
 
-export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [], onCanvasReady }) {
+export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [], onCanvasReady, showInlinePanels = true }) {
   const [mode, setMode] = useState("2d");
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [videoStatus, setVideoStatus] = useState({ state: "idle", progress: 0, url: "", message: "" });
@@ -111,21 +111,21 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
 
   return (
     <section className="relative col-span-6 flex min-h-0 min-w-0 flex-col overflow-hidden bg-bg-app" aria-labelledby="visualization-heading">
-      <div className="flex shrink-0 items-center justify-between border-b border-border-subtle px-5 py-3">
-        <div>
-          <h1 id="visualization-heading" className="text-sm font-medium text-text-secondary">{selectedAlgorithm?.name ?? "منطقة التصور"}</h1>
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-border-subtle px-3 py-3 sm:flex-nowrap sm:px-5">
+        <div className="min-w-0">
+          <h1 id="visualization-heading" className="truncate text-sm font-medium text-text-secondary">{selectedAlgorithm?.name ?? "منطقة التصور"}</h1>
           <p className="mt-1 text-xs text-text-muted">{currentStep ? "تابع سجل التنفيذ لمعرفة ما يحدث خطوة بخطوة" : "اختر خوارزمية ثم شغّل خطواتها"}</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
           <div className="flex items-center gap-2 text-[11px] text-text-muted">
-            <span className="h-2 w-2 rounded-full bg-accent-blue" />
+            <span className="h-2 w-2 shrink-0 rounded-full bg-accent-blue" />
             <span>{operationLabel}</span>
             {currentStep && currentStep.codeLine !== null && <span className="font-mono text-accent-yellow">السطر {currentStep.codeLine}</span>}
           </div>
           <VisualizationToolbar mode={mode} onModeChange={setMode} />
           {selectedAlgorithm && steps.length > 0 && <button type="button" onClick={() => setIsVideoModalOpen(true)} className="flex h-7 items-center gap-1.5 border border-accent-blue px-2 text-[11px] text-accent-blue hover:bg-accent-blue hover:text-bg-inset" aria-label="إنشاء فيديو">
             <Video className="h-3 w-3" />
-            إنشاء فيديو
+            <span className="hidden sm:inline">إنشاء فيديو</span>
           </button>}
         </div>
       </div>
@@ -138,10 +138,12 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
         <Array3DVisualizer array={array} currentStep={recordingStep} currentStepIndex={-1} viewportWidth={recordingSize.width} viewportHeight={recordingSize.height} onCanvasReady={(canvas) => { recordingCanvasRef.current = canvas; setRecordingCanvas(canvas); }} />
       </div>}
 
-      <div className="relative grid min-h-80 max-h-80 grid-cols-2 border-t border-border-subtle">
-        <ExecutionLog executionLog={executionLog} currentStepIndex={currentStepIndex} totalSteps={steps.length} />
-        <SourceCodePanel sourceCode={selectedAlgorithm?.sourceCode} activeLine={currentStep?.codeLine} />
-      </div>
+      {showInlinePanels && (
+        <div className="relative grid min-h-80 max-h-80 grid-cols-2 border-t border-border-subtle">
+          <ExecutionLog executionLog={executionLog} currentStepIndex={currentStepIndex} totalSteps={steps.length} />
+          <SourceCodePanel sourceCode={selectedAlgorithm?.sourceCode} activeLine={currentStep?.codeLine} />
+        </div>
+      )}
       {isVideoModalOpen && <VideoGenerationModal defaultMode={mode} onClose={closeVideoModal} onGenerate={generateVideo} status={videoStatus} />}
     </section>
   );
