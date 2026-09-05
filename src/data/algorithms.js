@@ -39,6 +39,9 @@ export const ALGORITHM_CATEGORIES = [
   {
     id: "graphs",
     name: "الخوارزميات على الرسوم البيانية",
+    // Not yet implemented (steps/visualization pending) — hidden from the
+    // current release's selector; kept here for a future advanced section.
+    hidden: true,
     algorithms: [
       withDifficulty({ id: "breadth-first-search", name: "البحث بعرض الرسم", englishName: "BFS" }),
       withDifficulty({ id: "depth-first-search", name: "البحث بعمق الرسم", englishName: "DFS" }),

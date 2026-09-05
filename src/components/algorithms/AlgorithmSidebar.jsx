@@ -8,7 +8,7 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
   const [expandedCategory, setExpandedCategory] = useState("sorting");
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
-  const filteredCategories = useMemo(() => ALGORITHM_CATEGORIES.map((category) => ({
+  const filteredCategories = useMemo(() => ALGORITHM_CATEGORIES.filter((category) => !category.hidden).map((category) => ({
     ...category,
     algorithms: category.algorithms.filter((algorithm) => (
       !normalizedQuery
