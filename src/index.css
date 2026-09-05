@@ -42,7 +42,6 @@ body,
 #root {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* the whole app fits the viewport, no page scroll */
 }
 
 body {
