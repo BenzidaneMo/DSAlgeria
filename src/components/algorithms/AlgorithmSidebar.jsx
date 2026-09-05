@@ -2,6 +2,7 @@ import { ChevronDown, ListTree, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
 import { Pencil } from "lucide-react";
+import DifficultyBadge from "./DifficultyBadge";
 
 export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm, array, sortedState, setIsArrayEditorOpen, target, onTargetChange }) {
   const [expandedCategory, setExpandedCategory] = useState("sorting");
@@ -58,12 +59,15 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
                               <button
                                 key={algorithm.id}
                                 type="button"
-                                className={`flex w-full flex-col items-start border-s-2 py-1.5 pe-3 ps-8 text-right transition-colors ${isSelected ? "border-accent-blue bg-bg-elevated text-text-primary" : "border-transparent text-text-secondary hover:bg-bg-hover hover:text-text-primary"}`}
+                                className={`flex w-full items-center justify-between gap-2 border-s-2 py-1.5 pe-3 ps-8 text-right transition-colors ${isSelected ? "border-accent-blue bg-bg-elevated text-text-primary" : "border-transparent text-text-secondary hover:bg-bg-hover hover:text-text-primary"}`}
                                 aria-pressed={isSelected}
                                 onClick={() => onSelectAlgorithm(algorithm)}
                               >
-                                <span className="text-xs leading-4">{algorithm.name}</span>
-                                <span className="font-mono text-[10px] leading-4 text-text-muted">{algorithm.englishName}</span>
+                                <span className="flex min-w-0 flex-col items-start">
+                                  <span className="text-xs leading-4">{algorithm.name}</span>
+                                  <span className="font-mono text-[10px] leading-4 text-text-muted">{algorithm.englishName}</span>
+                                </span>
+                                <DifficultyBadge level={algorithm.difficulty} className="shrink-0" />
                               </button>
                             );
                           })}

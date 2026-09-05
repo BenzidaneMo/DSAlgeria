@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ArrowDown, ArrowLeft, Binary, FlaskConical, Play, Quote, ScanSearch } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
+import DifficultyBadge from "../algorithms/DifficultyBadge";
 import { socialLinks } from "../../data/socialsMedia";
 import { algorithmPreviewArrayValues, demoTestimonials, features, howItWorksSteps, learningFlow, previewCategories } from "../../data/landingPage";
 
@@ -70,10 +71,13 @@ function LearningFlow({ steps }) {
   );
 }
 
-function AlgorithmPreviewCard({ name, englishName, description, onOpen }) {
+function AlgorithmPreviewCard({ name, englishName, description, difficulty, onOpen }) {
   return (
     <button type="button" onClick={onOpen} className="flex w-full flex-col items-start border border-border-subtle bg-bg-panel p-4 text-right transition-colors hover:border-border hover:bg-bg-elevated">
-      <span className="text-sm font-semibold text-text-primary">{name}</span>
+      <div className="flex w-full items-start justify-between gap-2">
+        <span className="text-sm font-semibold text-text-primary">{name}</span>
+        <DifficultyBadge level={difficulty} className="shrink-0" />
+      </div>
       <span className="font-mono text-[10px] text-text-muted">{englishName}</span>
       <p className="mt-2 text-xs leading-6 text-text-secondary">{description}</p>
     </button>

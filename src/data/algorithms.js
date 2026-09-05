@@ -6,44 +6,49 @@ import { INSERTION_SORT_METADATA } from "../algorithms/sorting/insertionSort";
 import { MERGE_SORT_METADATA } from "../algorithms/sorting/mergeSort";
 import { QUICK_SORT_METADATA } from "../algorithms/sorting/quickSort";
 import { SELECTION_SORT_METADATA } from "../algorithms/sorting/selectionSort";
+import { ALGORITHM_DIFFICULTY } from "./algorithmDifficulty";
+
+function withDifficulty(algorithm) {
+  return { ...algorithm, difficulty: ALGORITHM_DIFFICULTY[algorithm.id] };
+}
 
 export const ALGORITHM_CATEGORIES = [
   {
     id: "sorting",
     name: "خوارزميات الترتيب",
     algorithms: [
-      { id: "bubble-sort", ...BUBBLE_SORT_METADATA },
-      { id: "selection-sort", ...SELECTION_SORT_METADATA },
-      { id: "insertion-sort", ...INSERTION_SORT_METADATA },
-      { id: "merge-sort", ...MERGE_SORT_METADATA },
-      { id: "quick-sort", ...QUICK_SORT_METADATA },
+      withDifficulty({ id: "bubble-sort", ...BUBBLE_SORT_METADATA }),
+      withDifficulty({ id: "selection-sort", ...SELECTION_SORT_METADATA }),
+      withDifficulty({ id: "insertion-sort", ...INSERTION_SORT_METADATA }),
+      withDifficulty({ id: "merge-sort", ...MERGE_SORT_METADATA }),
+      withDifficulty({ id: "quick-sort", ...QUICK_SORT_METADATA }),
     ],
   },
   {
     id: "searching",
     name: "خوارزميات البحث",
     algorithms: [
-      { id: "linear-search", ...LINEAR_SEARCH_METADATA },
-      { id: "binary-search", ...BINARY_SEARCH_METADATA },
-      { id: "ternary-search", ...TERNARY_SEARCH_METADATA },
+      withDifficulty({ id: "linear-search", ...LINEAR_SEARCH_METADATA }),
+      withDifficulty({ id: "binary-search", ...BINARY_SEARCH_METADATA }),
+      withDifficulty({ id: "ternary-search", ...TERNARY_SEARCH_METADATA }),
     ],
   },
   {
     id: "graphs",
     name: "الخوارزميات على الرسوم البيانية",
     algorithms: [
-      { id: "breadth-first-search", name: "البحث بعرض الرسم", englishName: "BFS" },
-      { id: "depth-first-search", name: "البحث بعمق الرسم", englishName: "DFS" },
-      { id: "dijkstra", name: "خوارزمية ديكسترا", englishName: "Dijkstra" },
+      withDifficulty({ id: "breadth-first-search", name: "البحث بعرض الرسم", englishName: "BFS" }),
+      withDifficulty({ id: "depth-first-search", name: "البحث بعمق الرسم", englishName: "DFS" }),
+      withDifficulty({ id: "dijkstra", name: "خوارزمية ديكسترا", englishName: "Dijkstra" }),
     ],
   },
   {
     id: "recursion",
     name: "الاستدعاء الذاتي",
     algorithms: [
-      { id: "factorial", name: "العامل", englishName: "Factorial" },
-      { id: "fibonacci", name: "متتالية فيبوناتشي", englishName: "Fibonacci" },
-      { id: "tower-of-hanoi", name: "أبراج هانوي", englishName: "Tower of Hanoi" },
+      withDifficulty({ id: "factorial", name: "العامل", englishName: "Factorial" }),
+      withDifficulty({ id: "fibonacci", name: "متتالية فيبوناتشي", englishName: "Fibonacci" }),
+      withDifficulty({ id: "tower-of-hanoi", name: "أبراج هانوي", englishName: "Tower of Hanoi" }),
     ],
   },
 ];

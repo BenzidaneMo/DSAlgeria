@@ -1,6 +1,7 @@
 import { BookOpen, Clock3 } from "lucide-react";
 import { getStepOperation } from "../../engine/stepTypes";
 import { STEP_OPERATION_LABELS } from "../visualization/stepPresentation";
+import DifficultyBadge from "../algorithms/DifficultyBadge";
 
 export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
     const complexity = selectedAlgorithm?.complexity;
@@ -20,7 +21,10 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
       {selectedAlgorithm ? (
         <>
           <div className="border-b border-border-subtle pb-4">
-            <h1 className="text-base font-semibold text-text-primary">{selectedAlgorithm.name}</h1>
+            <div className="flex items-start justify-between gap-2">
+              <h1 className="text-base font-semibold text-text-primary">{selectedAlgorithm.name}</h1>
+              <DifficultyBadge level={selectedAlgorithm.difficulty} className="shrink-0" />
+            </div>
             <p className="mt-1 font-mono text-[11px] text-accent-blue">{selectedAlgorithm.englishName}</p>
             <p className="mt-3 text-xs leading-6 text-text-secondary">{selectedAlgorithm.description}</p>
                     </div>
