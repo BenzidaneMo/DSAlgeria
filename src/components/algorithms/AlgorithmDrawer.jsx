@@ -2,7 +2,7 @@ import { ChevronDown, ListTree, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import AlgorithmSidebar from "./AlgorithmSidebar";
 
-export default function AlgorithmDrawer({ selectedAlgorithm, onSelectAlgorithm, array, sortedState, setIsArrayEditorOpen, target, onTargetChange }) {
+export default function AlgorithmDrawer({ selectedAlgorithm, onSelectAlgorithm, array, sortedState, setIsArrayEditorOpen, target, onTargetChange, count, onCountChange }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -56,6 +56,8 @@ export default function AlgorithmDrawer({ selectedAlgorithm, onSelectAlgorithm, 
                 setIsArrayEditorOpen={setIsArrayEditorOpen}
                 target={target}
                 onTargetChange={onTargetChange}
+                count={count}
+                onCountChange={onCountChange}
               />
             </div>
           </div>

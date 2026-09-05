@@ -11,7 +11,7 @@ import { useMediaQuery } from "../../hooks/useMediaQuery";
 import CollapsibleSection from "./CollapsibleSection";
 import ControlBar from "./ControlBar";
 
-export default function MainWorkspace({ selectedAlgorithm, onSelectAlgorithm, currentStep, steps, currentStepIndex, executionLog, array, originalArray, sortedState, onApplyArray, target, onTargetChange, player }) {
+export default function MainWorkspace({ selectedAlgorithm, onSelectAlgorithm, currentStep, steps, currentStepIndex, executionLog, array, originalArray, sortedState, onApplyArray, target, onTargetChange, count, onCountChange, player }) {
   const [isArrayEditorOpen, setIsArrayEditorOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -23,7 +23,7 @@ export default function MainWorkspace({ selectedAlgorithm, onSelectAlgorithm, cu
         <main className="relative grid grid-cols-10 min-h-0 flex-1 overflow-hidden border-b border-border" aria-label="مساحة العمل الرئيسية">
           <ExplanationPanel array={array} selectedAlgorithm={selectedAlgorithm} currentStep={currentStep} />
           <VisualizationPanel selectedAlgorithm={selectedAlgorithm} currentStep={currentStep} steps={steps} currentStepIndex={currentStepIndex} executionLog={executionLog} array={array} />
-          <AlgorithmSidebar selectedAlgorithm={selectedAlgorithm} onSelectAlgorithm={onSelectAlgorithm} array={originalArray} sortedState={sortedState} setIsArrayEditorOpen={setIsArrayEditorOpen} target={target} onTargetChange={onTargetChange} />
+          <AlgorithmSidebar selectedAlgorithm={selectedAlgorithm} onSelectAlgorithm={onSelectAlgorithm} array={originalArray} sortedState={sortedState} setIsArrayEditorOpen={setIsArrayEditorOpen} target={target} onTargetChange={onTargetChange} count={count} onCountChange={onCountChange} />
         </main>
         <ControlBar player={player} />
         {arrayEditorModal}
@@ -33,7 +33,7 @@ export default function MainWorkspace({ selectedAlgorithm, onSelectAlgorithm, cu
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto" aria-label="مساحة العمل الرئيسية">
-      <AlgorithmDrawer selectedAlgorithm={selectedAlgorithm} onSelectAlgorithm={onSelectAlgorithm} array={originalArray} sortedState={sortedState} setIsArrayEditorOpen={setIsArrayEditorOpen} target={target} onTargetChange={onTargetChange} />
+      <AlgorithmDrawer selectedAlgorithm={selectedAlgorithm} onSelectAlgorithm={onSelectAlgorithm} array={originalArray} sortedState={sortedState} setIsArrayEditorOpen={setIsArrayEditorOpen} target={target} onTargetChange={onTargetChange} count={count} onCountChange={onCountChange} />
 
       <VisualizationPanel selectedAlgorithm={selectedAlgorithm} currentStep={currentStep} steps={steps} currentStepIndex={currentStepIndex} executionLog={executionLog} array={array} showInlinePanels={false} />
 

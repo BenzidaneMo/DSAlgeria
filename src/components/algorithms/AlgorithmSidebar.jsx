@@ -4,7 +4,7 @@ import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
 import { Pencil } from "lucide-react";
 import DifficultyBadge from "./DifficultyBadge";
 
-export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm, array, sortedState, setIsArrayEditorOpen, target, onTargetChange }) {
+export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm, array, sortedState, setIsArrayEditorOpen, target, onTargetChange, count, onCountChange }) {
   const [expandedCategory, setExpandedCategory] = useState("sorting");
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
@@ -90,16 +90,26 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
             </label>
           </div>
                 ) : null}
-        <div className="self-end mx-auto mb-2 flex items-center justify-center rounded-md max-w-3xs 2xl:max-w-2xs gap-2 border border-border-subtle p-1.5 bg-bg-app">
-            <div className="items-center justify-between gap-2 hidden 2xl:flex">
-                <h3 className="text-xs font-semibold text-text-primary">المصفوفة</h3>
-                <span className="font-mono text-[10px] text-text-muted">{array.join("، ")}</span>
-            </div>
-            <button type="button" onClick={() => setIsArrayEditorOpen(true)} className="group max-w-34 h-fit cursor-pointer flex items-center justify-center gap-1 rounded-md border border-border-subtle py-4 px-2.5  hover:bg-bg-hover transform transition-all hover:scale-102 ease-in-out duration-150 focus:scale-95">
-                <Pencil className="h-3 w-3" />
-                <span className="w-fit text-[11px] text-text-secondary group-hover:text-text-primary">تعديل المصفوفة</span>
-            </button>
-        </div>
+        {selectedAlgorithm?.requiresCount ? (
+          <div className="border-t border-border-subtle p-3">
+            <label className="flex items-center justify-between gap-2 text-[11px] text-text-secondary">
+              <span>{selectedAlgorithm.countLabel ?? "القيمة n"}</span>
+              <input type="number" min={0} max={selectedAlgorithm.countMax} value={count} onChange={(event) => onCountChange(Number(event.target.value))} className="h-7 w-20 border border-border-subtle bg-bg-inset px-2 text-center font-mono text-xs text-text-primary outline-none focus:border-accent-blue" aria-label={selectedAlgorithm.countLabel ?? "القيمة n"} />
+            </label>
+          </div>
+        ) : null}
+        {!selectedAlgorithm?.requiresCount && (
+          <div className="self-end mx-auto mb-2 flex items-center justify-center rounded-md max-w-3xs 2xl:max-w-2xs gap-2 border border-border-subtle p-1.5 bg-bg-app">
+              <div className="items-center justify-between gap-2 hidden 2xl:flex">
+                  <h3 className="text-xs font-semibold text-text-primary">المصفوفة</h3>
+                  <span className="font-mono text-[10px] text-text-muted">{array.join("، ")}</span>
+              </div>
+              <button type="button" onClick={() => setIsArrayEditorOpen(true)} className="group max-w-34 h-fit cursor-pointer flex items-center justify-center gap-1 rounded-md border border-border-subtle py-4 px-2.5  hover:bg-bg-hover transform transition-all hover:scale-102 ease-in-out duration-150 focus:scale-95">
+                  <Pencil className="h-3 w-3" />
+                  <span className="w-fit text-[11px] text-text-secondary group-hover:text-text-primary">تعديل المصفوفة</span>
+              </button>
+          </div>
+        )}
     </aside>
   );
 }

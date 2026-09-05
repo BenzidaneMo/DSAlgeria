@@ -11,6 +11,7 @@ export default function AppShell() {
   const [steps, setSteps] = useState([]);
   const [sortedState, setSortedState] = useState({ sortedArray: [], isSorted: false, sortedBy: null });
   const [target, setTarget] = useState(42);
+  const [count, setCount] = useState(5);
   const player = useAlgorithmPlayer({ steps });
 
   useEffect(() => {
@@ -19,12 +20,15 @@ export default function AppShell() {
     }
   }, [player.currentStep, selectedAlgorithm]);
 
-  function getAlgorithmInput(algorithm, nextArray = array, nextTarget = target) {
+  function getAlgorithmInput(algorithm, nextArray = array, nextTarget = target, nextCount = count) {
     if (algorithm.requiresSortedInput) {
       return { sortedArray: sortedState.sortedArray, isSorted: sortedState.isSorted, sortedBy: sortedState.sortedBy, target: nextTarget };
     }
     if (algorithm.requiresTarget) {
       return { array: nextArray, target: nextTarget };
+    }
+    if (algorithm.requiresCount) {
+      return { n: nextCount };
     }
     return nextArray;
   }
@@ -65,6 +69,13 @@ export default function AppShell() {
           setTarget(nextTarget);
           if (selectedAlgorithm?.requiresTarget) {
             setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, array, nextTarget) }));
+          }
+        }}
+        count={count}
+        onCountChange={(nextCount) => {
+          setCount(nextCount);
+          if (selectedAlgorithm?.requiresCount) {
+            setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, array, target, nextCount) }));
           }
         }}
         player={player}
