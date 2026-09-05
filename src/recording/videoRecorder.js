@@ -42,6 +42,7 @@ export class VideoRecorder {
       playbackSpeed: this.profile.playbackSpeed,
     });
     this.mediaRecorder = null;
+    this.videoTrack = null;
     this.chunks = [];
   }
 
@@ -63,7 +64,17 @@ export class VideoRecorder {
     }
 
     this.chunks = [];
-    const stream = this.source.captureStream(this.profile.frameRate);
+    // A 2D capture source is an off-DOM canvas (see VisualizationPanel's
+    // generateVideo): browsers only keep sampling captureStream() at a fixed
+    // frameRate for canvases that participate in the compositor, so a
+    // detached canvas otherwise freezes on its first frame. Manual mode
+    // (frameRate 0) sidesteps that by having each draw explicitly push its
+    // own frame via requestFrame() instead of relying on periodic sampling.
+    // The 3D source is a real mounted <Canvas>, so it keeps its own
+    // continuously-updating stream at the configured frame rate.
+    const captureFrameRate = this.profile.mode === "2d" ? 0 : this.profile.frameRate;
+    const stream = this.source.captureStream(captureFrameRate);
+    this.videoTrack = stream.getVideoTracks?.()[0] ?? null;
     this.mediaRecorder = new MediaRecorder(stream, { mimeType });
     this.mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
@@ -72,6 +83,11 @@ export class VideoRecorder {
     };
     this.mediaRecorder.start();
     return this.metadata;
+  }
+
+  /** Forces the capture source to push its current pixels as a new frame; a no-op if the track doesn't support manual frames. */
+  requestFrame() {
+    this.videoTrack?.requestFrame?.();
   }
 
   stop() {
@@ -85,6 +101,7 @@ export class VideoRecorder {
         const blob = new Blob(this.chunks, { type: this.mediaRecorder.mimeType });
         this.mediaRecorder.stream.getTracks().forEach((track) => track.stop());
         this.mediaRecorder = null;
+        this.videoTrack = null;
         this.chunks = [];
         resolve(blob);
       };
@@ -98,6 +115,7 @@ export class VideoRecorder {
       this.mediaRecorder.stop();
     }
     this.mediaRecorder = null;
+    this.videoTrack = null;
     this.chunks = [];
   }
 }

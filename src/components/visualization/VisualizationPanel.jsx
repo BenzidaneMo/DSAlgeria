@@ -88,6 +88,7 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
             } else {
               renderArray2DFrame(captureCanvas, step, { width, height });
             }
+            session.requestFrame();
           }
         },
       });

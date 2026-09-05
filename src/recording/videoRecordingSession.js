@@ -27,6 +27,11 @@ export class VideoRecordingSession {
     return step;
   }
 
+  /** Forces the current visual state to be pushed as a new video frame (see VideoRecorder.requestFrame). */
+  requestFrame() {
+    this.recorder.requestFrame();
+  }
+
   async stop() {
     try {
       return await this.recorder.stop();
