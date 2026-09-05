@@ -71,6 +71,24 @@ This extends the traditional 2D visualization approach by allowing algorithmic c
 
 ---
 
+### 🎬 Video Generation
+
+Any algorithm run can be exported as a downloadable video (2D or 3D, configurable resolution, frame rate, and playback speed).
+
+Video generation replays the algorithm **from step 0**, independently of the student's current position in the visualizer, so the exported video always shows the complete execution.
+
+---
+
+### 🏠 Landing Page & Onboarding
+
+A bilingual, RTL landing page introduces the platform before students reach the visualizer: a hero section, a "how it works" walkthrough, an algorithm catalog preview (pulled from the same central algorithm data used by the app, not duplicated), a demo-labeled testimonials section, and a final call to action.
+
+### 📱 Responsive Design
+
+The visualizer adapts to mobile and tablet screens with a dedicated layout rather than a scaled-down desktop view: the algorithm selector becomes a bottom-sheet drawer, the explanation/source-code/execution-log panels become collapsible sections, and the navbar collapses into a slide-down menu. The desktop three-column layout (explanation · visualization · selector) is unchanged.
+
+---
+
 ## 🎯 Project Goal
 
 The main goal of DSAlgeria is to make algorithms easier to learn by combining theoretical concepts with visual and interactive explanations.
@@ -109,47 +127,46 @@ This approach allows students to follow the algorithm's logic and observe how it
 
 ## 🧩 Algorithms
 
-The platform is designed to support different categories of algorithms.
+The platform organizes algorithms into categories (خوارزميات الترتيب، خوارزميات البحث، الاستدعاء الذاتي، الخوارزميات على الرسوم البيانية). Each algorithm carries a difficulty level — **سهل** (easy), **متوسط** (medium), or **متقدم** (advanced) — graded for the target audience (Algerian high-school students) rather than by raw implementation complexity, shown consistently in the selector, the explanation panel, and the landing page.
 
-### Searching
+### ✅ Implemented
 
-- Linear Search
-- Binary Search
-- Ternary Search
-
-### Sorting
-
+**Sorting (خوارزميات الترتيب)**
 - Bubble Sort
 - Selection Sort
 - Insertion Sort
 - Merge Sort
 - Quick Sort
 
-### Mathematical Algorithms
+**Searching (خوارزميات البحث)**
+- Linear Search
+- Binary Search
+- Ternary Search
 
-- Fibonacci Sequence
+**Recursion / Self-Invocation (الاستدعاء الذاتي)**
+- Factorial (المضروب) — visualized as a recursive call chain going down to the base case, then an unwinding chain of multiplications back up, in both 2D and 3D, rather than reusing the array bar-chart view.
 
-### Graph Algorithms
+### 🚧 Planned (registered, not yet implemented)
 
+- Fibonacci (متتالية فيبوناتشي)
+- Tower of Hanoi (أبراج هانوي)
+- Breadth-First Search / Depth-First Search
 - Dijkstra's Algorithm
-
-### Algorithmic Paradigms
-
-- Divide and Conquer
-- Greedy Algorithms
-- Dynamic Programming
 
 ---
 
 ## 🛠️ Technologies
 
 - **React** — Building the user interface and application components
+- **React Router** — Client-side routing between the landing page and the visualizer
 - **Vite** — Development environment and build tool
 - **Tailwind CSS** — Styling and responsive design
 - **JavaScript** — Algorithm implementation and application logic
 - **Lucide React** — Interface icons
+- **Font Awesome** — Social/brand icons
 - **HTML & CSS** — Custom 2D visualizations and UI elements
-- **3D Visualization** — Interactive three-dimensional algorithm representations
+- **Three.js / React Three Fiber / drei** — Interactive 3D algorithm and recursion visualizations
+- **Canvas API / MediaRecorder** — Rendering and exporting algorithm playback as video
 
 ---
 
@@ -182,6 +199,10 @@ The interface uses Arabic terminology for important educational sections, includ
 | الكود المصدري | Source Code |
 | التعقيد الزمني | Time Complexity |
 | التعقيد المكاني | Space Complexity |
+| المضروب | Factorial |
+| الاستدعاء الذاتي | Recursion / Self-Invocation |
+| الحالة الأساسية | Base Case |
+| سهل / متوسط / متقدم | Easy / Medium / Advanced |
 
 This helps make algorithmic concepts more accessible to students learning in Arabic.
 
@@ -281,12 +302,18 @@ A simplified project structure:
 DSAlgeria/
 ├── public/
 ├── src/
+│   ├── algorithms/         # Step generators + metadata (sorting/, searching/, recursion/)
 │   ├── components/
-│   ├── pages/
-│   ├── algorithms/
-│   ├── data/
-│   ├── utils/
-│   ├── assets/
+│   │   ├── algorithms/     # Algorithm selector (sidebar + mobile drawer)
+│   │   ├── explanation/    # Algorithm info / explanation panel
+│   │   ├── input/          # Array editor
+│   │   ├── landing/        # Landing page
+│   │   ├── layout/         # App shell, navbar, workspace, control bar
+│   │   └── visualization/  # 2D/3D/recursion visualizers, source code, execution log, video modal
+│   ├── data/               # Algorithm registry, categories, difficulty, landing content
+│   ├── engine/             # Step types + playback engine (shared by every algorithm)
+│   ├── hooks/
+│   ├── recording/          # Video recording session, timeline, and frame renderers
 │   ├── App.jsx
 │   └── main.jsx
 ├── package.json
@@ -302,16 +329,15 @@ The structure may evolve as new algorithms and visualization features are added.
 
 Potential future improvements include:
 
-- Additional algorithms
+- Fibonacci and Tower of Hanoi, reusing the recursion visualization introduced for Factorial
+- Graph algorithms (BFS, DFS, Dijkstra) with a dedicated node/edge visualization
+- Additional algorithmic paradigms (Divide and Conquer, Greedy Algorithms, Dynamic Programming)
 - More data structures
-- More graph algorithms
-- Additional 3D visualizations
 - Algorithm comparison
 - Interactive exercises
 - Quizzes
 - Learning progress tracking
 - More Arabic educational content
-- Improved mobile experience
 - More advanced visualization controls
 
 ---
