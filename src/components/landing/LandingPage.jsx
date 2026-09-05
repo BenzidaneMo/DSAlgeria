@@ -1,35 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ArrowDown, ArrowLeft, Binary, BookOpen, Box, Eye, FlaskConical, ListChecks, MousePointerClick, Play, ScanSearch, SlidersHorizontal } from "lucide-react";
+import { ArrowDown, ArrowLeft, Binary, FlaskConical, Play, Quote, ScanSearch } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import { socialLinks } from "../../data/socialsMedia";
-import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
-
-const arrayValues = [10, 15, 21, 35, 42, 58, 70, 91];
-
-const features = [
-  { icon: BookOpen, title: "شرح مبسط", detail: "شرح الخوارزميات باللغة العربية بطريقة مناسبة للطلاب.", color: "text-accent-blue" },
-  { icon: ScanSearch, title: "تصور تفاعلي", detail: "شاهد الخوارزمية وهي تنفذ خطوة بخطوة.", color: "text-accent-yellow" },
-  { icon: SlidersHorizontal, title: "جرّب بنفسك", detail: "غيّر البيانات وتحكم في عملية التنفيذ.", color: "text-accent-green" },
-  { icon: Box, title: "تصور ثلاثي الأبعاد", detail: "شاهد الخوارزميات بطريقة بصرية ثلاثية الأبعاد.", color: "text-accent-purple" },
-];
-
-const howItWorksSteps = [
-  { icon: ListChecks, title: "اختر الخوارزمية", detail: "تصفّح قائمة الخوارزميات المصنّفة واختر ما تريد تعلّمه.", color: "text-accent-blue" },
-  { icon: Eye, title: "شاهد طريقة عملها", detail: "تابع التنفيذ خطوة بخطوة عبر تصور بصري وشرح مبسط.", color: "text-accent-yellow" },
-  { icon: MousePointerClick, title: "جرّبها بنفسك", detail: "غيّر البيانات وتحكم في السرعة لتختبر فهمك بنفسك.", color: "text-accent-green" },
-];
-
-const learningFlow = ["اختيار", "فهم", "مشاهدة", "تجربة"];
-
-const previewAlgorithmIds = new Set([
-  "bubble-sort", "selection-sort", "insertion-sort", "quick-sort", "merge-sort",
-  "linear-search", "binary-search", "ternary-search",
-]);
-
-const previewCategories = ALGORITHM_CATEGORIES
-  .map((category) => ({ ...category, algorithms: category.algorithms.filter((algorithm) => previewAlgorithmIds.has(algorithm.id)) }))
-  .filter((category) => category.algorithms.length > 0);
+import { algorithmPreviewArrayValues, demoTestimonials, features, howItWorksSteps, learningFlow, previewCategories } from "../../data/landingPage";
 
 
 function AlgorithmPreview() {
@@ -51,7 +25,7 @@ function AlgorithmPreview() {
           <p className="ps-4 text-accent-green">return middle</p>
           <p><span className="text-accent-purple">return</span> <span className="text-accent-red">-1</span></p>
           <div className="mt-5 grid grid-cols-8 gap-1.5 border-t border-border-subtle pt-4">
-            {arrayValues.map((value, index) => <span key={`${value}-${index}`} className={`flex aspect-square items-center justify-center border text-[10px] ${index === 4 ? "border-accent-yellow bg-accent-yellow/15 text-accent-yellow" : "border-border-subtle bg-bg-elevated text-text-secondary"}`}>{value}</span>)}
+            {algorithmPreviewArrayValues.map((value, index) => <span key={`${value}-${index}`} className={`flex aspect-square items-center justify-center border text-[10px] ${index === 4 ? "border-accent-yellow bg-accent-yellow/15 text-accent-yellow" : "border-border-subtle bg-bg-elevated text-text-secondary"}`}>{value}</span>)}
           </div>
           <div className="mt-2 flex justify-between px-1 text-[9px] text-text-muted"><span>left</span><span className="text-accent-yellow">middle</span><span>right</span></div>
         </div>
@@ -103,6 +77,16 @@ function AlgorithmPreviewCard({ name, englishName, description, onOpen }) {
       <span className="font-mono text-[10px] text-text-muted">{englishName}</span>
       <p className="mt-2 text-xs leading-6 text-text-secondary">{description}</p>
     </button>
+  );
+}
+
+function TestimonialCard({ quote, role }) {
+  return (
+    <figure className="border border-border-subtle bg-bg-panel p-4">
+      <Quote className="h-3.5 w-3.5 text-accent-blue" strokeWidth={2} />
+      <blockquote className="mt-3 text-xs leading-6 text-text-secondary">{quote}</blockquote>
+      <figcaption className="mt-3 font-mono text-[10px] text-text-muted">{role}</figcaption>
+    </figure>
   );
 }
 
@@ -187,6 +171,23 @@ export default function LandingPage() {
             ))}
           </div>
           <button type="button" onClick={onStart} className="mt-8 inline-flex w-full items-center justify-center gap-2 border border-border-subtle py-3 text-xs font-semibold text-text-secondary transition-colors hover:border-accent-blue hover:text-accent-blue sm:hidden">استكشف جميع الخوارزميات<ArrowLeft className="h-3.5 w-3.5" /></button>
+        </section>
+
+        <section className="mt-20 border-t border-border-subtle pt-10" aria-labelledby="testimonials-heading">
+          <div className="mb-6 flex flex-wrap items-center gap-3">
+            <h2 id="testimonials-heading" className="text-lg font-semibold text-text-primary">آراء الطلاب</h2>
+            <span className="border border-border-subtle bg-bg-inset px-2 py-0.5 font-mono text-[10px] text-text-muted">محتوى تجريبي — بانتظار آراء حقيقية</span>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {demoTestimonials.map((testimonial) => <TestimonialCard key={testimonial.role} {...testimonial} />)}
+          </div>
+        </section>
+
+        <section className="mt-20 border border-accent-blue/30 bg-bg-panel px-8 py-14 text-center" aria-labelledby="cta-heading">
+          <p className="font-mono text-[10px] text-accent-blue">// get_started</p>
+          <h2 id="cta-heading" className="mt-2 text-2xl font-semibold text-text-primary">جاهز لتجربة الخوارزميات؟</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-text-secondary">ابدأ الآن وشاهد كيف تعمل الخوارزميات خطوة بخطوة.</p>
+          <button type="button" onClick={onStart} className="mt-7 inline-flex h-11 items-center gap-3 bg-accent-blue px-6 text-sm font-semibold text-bg-inset transition-colors hover:bg-accent-blue-bright focus-visible:outline-none"><Play className="h-4 w-4 fill-current" />ابدأ التعلم<ArrowLeft className="h-4 w-4" /></button>
         </section>
       </main>
 
