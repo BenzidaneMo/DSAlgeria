@@ -79,9 +79,7 @@ export default function AlgorithmSidebar({ selectedAlgorithm, onSelectAlgorithm,
             {normalizedQuery && filteredCategories.length === 0 && <p className="px-4 py-4 text-xs text-text-muted">لم يتم العثور على خوارزمية.</p>}
         </div>
         {sortedState?.isSorted && <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-green">مصفوفة مرتبة جاهزة للبحث: [{sortedState.sortedArray.join("، ")}]<br />مصدر الترتيب: {sortedState.sortedBy}</p>}
-        {selectedAlgorithm?.requiresSortedInput && selectedAlgorithm.requirement && (
-          <p className="border-t border-border-subtle px-3 py-2 text-[10px] leading-5 text-accent-yellow">{selectedAlgorithm.requirement}</p>
-        )}
+        
         {selectedAlgorithm?.requiresTarget ? (
           <div className="border-t border-border-subtle p-3">
             <label className="flex items-center justify-between gap-2 text-[11px] text-text-secondary">

@@ -1,16 +1,12 @@
-import { BookOpen, Clock3 } from "lucide-react";
-import { getStepOperation } from "../../engine/stepTypes";
-import { STEP_OPERATION_LABELS } from "../visualization/stepPresentation";
+import { BookOpen, Clock3, FlaskConical, Lightbulb, Route } from "lucide-react";
 import DifficultyBadge from "../algorithms/DifficultyBadge";
 
 export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
-    const complexity = selectedAlgorithm?.complexity;
-  const operation = getStepOperation(currentStep);
+  const complexity = selectedAlgorithm?.complexity;
   const metadata = currentStep?.metadata;
   const searchDetails = metadata?.target !== null && metadata?.target !== undefined;
-  const binarySearchDetails = Number.isInteger(metadata?.left) || Number.isInteger(metadata?.middle) || Number.isInteger(metadata?.right);
-  const ternarySearchDetails = Number.isInteger(metadata?.mid1) || Number.isInteger(metadata?.mid2);
   const towerDetails = metadata?.towers != null;
+  const education = selectedAlgorithm?.education;
 
   return (
     <section className="min-h-0 col-span-2 overflow-auto border-e border-border bg-bg-panel p-4" aria-labelledby="explanation-heading">
@@ -27,9 +23,44 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
               <DifficultyBadge level={selectedAlgorithm.difficulty} className="shrink-0" />
             </div>
             <p className="mt-1 font-mono text-[11px] text-accent-blue">{selectedAlgorithm.englishName}</p>
-            <p className="mt-3 text-xs leading-6 text-text-secondary">{selectedAlgorithm.description}</p>
-                    </div>
+            <h3 className="mt-3 text-[10px] font-semibold text-text-muted">وصف مبسط</h3>
+            <p className="mt-1 text-xs leading-6 text-text-secondary">{selectedAlgorithm.description}</p>
+          </div>
+          
           {selectedAlgorithm.requirement && <p className="mt-3 border-s-2 border-accent-yellow px-3 py-2 text-[11px] leading-5 text-accent-yellow">{selectedAlgorithm.requirement}</p>}
+
+          {education?.coreIdea && (
+            <div className="border-b border-border-subtle py-4">
+              <div className="mb-2 flex items-center gap-2">
+                <Lightbulb className="h-3.5 w-3.5 text-accent-yellow" strokeWidth={1.8} />
+                <h3 className="text-xs font-semibold text-text-primary">الفكرة الأساسية</h3>
+              </div>
+              <p className="text-xs leading-6 text-text-secondary">{education.coreIdea}</p>
+            </div>
+          )}
+
+          {education?.howItWorks?.length > 0 && (
+            <div className="border-b border-border-subtle py-4">
+              <div className="mb-2 flex items-center gap-2">
+                <Route className="h-3.5 w-3.5 text-accent-blue" strokeWidth={1.8} />
+                <h3 className="text-xs font-semibold text-text-primary">كيف تعمل؟</h3>
+              </div>
+              <ol className="list-decimal space-y-1.5 ps-4 text-xs leading-6 text-text-secondary">
+                {education.howItWorks.map((step) => <li key={step}>{step}</li>)}
+              </ol>
+            </div>
+          )}
+
+          {education?.example && (
+            <div className="border-b border-border-subtle py-4">
+              <div className="mb-2 flex items-center gap-2">
+                <FlaskConical className="h-3.5 w-3.5 text-accent-green" strokeWidth={1.8} />
+                <h3 className="text-xs font-semibold text-text-primary">مثال</h3>
+              </div>
+              <p className="border-s-2 border-accent-green/50 bg-bg-inset px-3 py-2 font-mono text-[11px] leading-6 text-text-secondary" dir="rtl">{education.example}</p>
+            </div>
+          )}
+
 
           {selectedAlgorithm.rules?.length > 0 && (
             <div className="mt-3 border-s-2 border-accent-purple bg-bg-inset px-3 py-2">
@@ -54,32 +85,7 @@ export default function ExplanationPanel({ selectedAlgorithm, currentStep }) {
             </div>
           )}
 
-          {currentStep?.message && (
-            <div className="mt-4 border-s-2 border-accent-blue bg-bg-inset px-3 py-2">
-              <p className="text-[10px] text-accent-blue">{STEP_OPERATION_LABELS[operation] ?? operation}</p>
-              <p className="mt-1 text-xs leading-5 text-text-secondary">{currentStep.message}</p>
-              {metadata?.leftSubarray && metadata?.rightSubarray && (
-                <div className="mt-2 flex gap-3 font-mono text-[10px] text-text-muted" dir="ltr">
-                  <span>left: [{metadata.leftSubarray.join(", ")}]</span>
-                  <span>right: [{metadata.rightSubarray.join(", ")}]</span>
-                </div>
-              )}
-                                          {ternarySearchDetails && (
-                <div className="mt-2 grid grid-cols-4 gap-2 font-mono text-[10px] text-text-muted" dir="ltr">
-                  <span>left: {metadata.left}</span><span>mid1: {metadata.mid1}</span><span>mid2: {metadata.mid2}</span><span>right: {metadata.right}</span>
-                </div>
-              )}
-              {binarySearchDetails && !ternarySearchDetails && (
-                <div className="mt-2 grid grid-cols-3 gap-2 font-mono text-[10px] text-text-muted" dir="ltr">
-                  <span>left: {metadata.left}</span><span>middle: {metadata.middle ?? "-"}</span><span>right: {metadata.right}</span>
-                </div>
-              )}
-              {metadata?.eliminatedRange && <p className="mt-2 text-[10px] text-accent-orange">نستبعد المجال من {metadata.eliminatedRange.start} إلى {metadata.eliminatedRange.end}</p>}
-              {metadata?.eliminatedRanges?.length > 0 && <p className="mt-2 text-[10px] text-accent-orange">تم استبعاد {metadata.eliminatedRanges.length} مجال من البحث</p>}
-            </div>
-          )}
-
-                    {complexity && (
+          {complexity && (
             <div className="border-b border-border-subtle py-4">
               <div className="mb-3 flex items-center gap-2">
                 <Clock3 className="h-3.5 w-3.5 text-accent-yellow" strokeWidth={1.8} />
