@@ -30,7 +30,7 @@ function AlgorithmPreview() {
           <div className="mt-2 flex justify-between px-1 text-[9px] text-text-muted"><span>left</span><span className="text-accent-yellow">middle</span><span>right</span></div>
         </div>
       </div>
-      <div className="absolute -bottom-4 -start-4 flex items-center gap-2 border border-accent-green/40 bg-bg-inset px-3 py-2 text-[10px] text-accent-green shadow-lg"><ScanSearch className="h-3.5 w-3.5" /> نطاق البحث يتقلص مع كل مقارنة</div>
+      <div className="mx-3 mb-3 flex items-center gap-2 border border-accent-green/40 bg-bg-inset px-3 py-2 text-[10px] text-accent-green shadow-lg sm:absolute sm:-bottom-4 sm:-start-4 sm:mx-0 sm:mb-0"><ScanSearch className="h-3.5 w-3.5 shrink-0" /> نطاق البحث يتقلص مع كل مقارنة</div>
     </div>
   );
 }
@@ -109,15 +109,15 @@ export default function LandingPage() {
   return (
     <div className="h-screen w-full overflow-y-auto overflow-x-hidden bg-bg-app text-text-primary" dir="rtl">
       <Navbar />
-      <main className="mx-auto w-full max-w-7xl px-10 py-16">
-        <section className="grid min-h-[calc(100vh-220px)] items-center gap-20 lg:grid-cols-[0.9fr_1.1fr]" aria-labelledby="landing-title">
+      <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-16">
+        <section className="grid gap-10 sm:gap-14 lg:min-h-[calc(100vh-220px)] lg:items-center lg:gap-20 lg:grid-cols-[0.9fr_1.1fr]" aria-labelledby="landing-title">
           <div className="order-2 lg:order-1">
             <div className="mb-5 flex items-center gap-2 font-mono text-[11px] text-accent-green"><span className="h-1.5 w-1.5 bg-accent-green" /> بيئة تعلم جزائرية للبرمجة</div>
-            <h1 id="landing-title" className="font-mono text-5xl font-semibold tracking-tight text-text-primary">DSAlgeria</h1>
-            <h2 className="mt-5 max-w-lg text-3xl font-semibold leading-tight text-text-primary">تعلم الخوارزميات بطريقة تفاعلية</h2>
-            <p className="mt-6 max-w-xl text-base leading-8 text-text-secondary">منصة تعليمية تساعدك على فهم الخوارزميات من خلال الشرح، المحاكاة، والتجربة.</p>
-            <button type="button" onClick={onStart} className="mt-9 inline-flex h-11 items-center gap-3 bg-accent-blue px-5 text-sm font-semibold text-bg-inset transition-colors hover:bg-accent-blue-bright focus-visible:outline-none"><Play className="h-4 w-4 fill-current" />ابدأ التعلم<ArrowLeft className="h-4 w-4" /></button>
-            <div className="mt-14 grid max-w-xl grid-cols-3 gap-6">
+            <h1 id="landing-title" className="font-mono text-4xl font-semibold tracking-tight text-text-primary sm:text-5xl">DSAlgeria</h1>
+            <h2 className="mt-5 max-w-lg text-2xl font-semibold leading-tight text-text-primary sm:text-3xl">تعلم الخوارزميات بطريقة تفاعلية</h2>
+            <p className="mt-6 max-w-xl text-sm leading-7 text-text-secondary sm:text-base sm:leading-8">منصة تعليمية تساعدك على فهم الخوارزميات من خلال الشرح، المحاكاة، والتجربة.</p>
+            <button type="button" onClick={onStart} className="mt-9 flex h-11 w-full items-center justify-center gap-3 bg-accent-blue px-5 text-sm font-semibold text-bg-inset transition-colors hover:bg-accent-blue-bright focus-visible:outline-none sm:inline-flex sm:w-auto"><Play className="h-4 w-4 fill-current" />ابدأ التعلم<ArrowLeft className="h-4 w-4" /></button>
+            <div className="mt-10 grid max-w-xl grid-cols-3 gap-4 sm:mt-14 sm:gap-6">
               <LearningSignal icon={Binary} title="فهم" detail="خطوات واضحة" color="text-accent-blue" />
               <LearningSignal icon={ScanSearch} title="محاكاة" detail="تتبع كل مقارنة" color="text-accent-yellow" />
               <LearningSignal icon={FlaskConical} title="تجربة" detail="اختبر أفكارك" color="text-accent-purple" />
@@ -126,23 +126,23 @@ export default function LandingPage() {
           <div className="order-1 flex justify-center lg:order-2"><AlgorithmPreview /></div>
         </section>
 
-        <section className="mt-20 border-t border-border-subtle pt-10" aria-labelledby="why-heading">
-          <div className="mb-6 flex items-end justify-between gap-6">
+        <section className="mt-14 border-t border-border-subtle pt-8 sm:mt-16 sm:pt-10 lg:mt-20" aria-labelledby="why-heading">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
             <div>
               <p className="font-mono text-[10px] text-accent-blue">// learning_environment</p>
-              <h2 id="why-heading" className="mt-2 text-2xl font-semibold text-text-primary">لماذا DSAlgeria؟</h2>
+              <h2 id="why-heading" className="mt-2 text-xl font-semibold text-text-primary sm:text-2xl">لماذا DSAlgeria؟</h2>
             </div>
-            <p className="max-w-sm text-left text-xs leading-6 text-text-muted">أدوات بسيطة تساعدك على الانتقال من حفظ الخطوات إلى فهم طريقة التفكير.</p>
+            <p className="max-w-sm text-xs leading-6 text-text-muted sm:text-left">أدوات بسيطة تساعدك على الانتقال من حفظ الخطوات إلى فهم طريقة التفكير.</p>
           </div>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature) => <FeatureCard key={feature.title} {...feature} />)}
           </div>
         </section>
 
-        <section className="mt-20 border-t border-border-subtle pt-10" aria-labelledby="how-heading">
+        <section className="mt-14 border-t border-border-subtle pt-8 sm:mt-16 sm:pt-10 lg:mt-20" aria-labelledby="how-heading">
           <p className="font-mono text-[10px] text-accent-blue">// student_flow</p>
-          <h2 id="how-heading" className="mt-2 text-2xl font-semibold text-text-primary">كيف يعمل DSAlgeria؟</h2>
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
+          <h2 id="how-heading" className="mt-2 text-xl font-semibold text-text-primary sm:text-2xl">كيف يعمل DSAlgeria؟</h2>
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:gap-10">
             <div className="grid gap-3 sm:grid-cols-3">
               {howItWorksSteps.map((step, index) => <HowItWorksStep key={step.title} index={index} {...step} />)}
             </div>
@@ -152,19 +152,19 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="mt-20 border-t border-border-subtle pt-10" aria-labelledby="explore-heading">
+        <section className="mt-14 border-t border-border-subtle pt-8 sm:mt-16 sm:pt-10 lg:mt-20" aria-labelledby="explore-heading">
           <div className="mb-6 flex items-end justify-between gap-6">
             <div>
               <p className="font-mono text-[10px] text-accent-blue">// algorithm_catalog</p>
-              <h2 id="explore-heading" className="mt-2 text-2xl font-semibold text-text-primary">استكشف الخوارزميات</h2>
+              <h2 id="explore-heading" className="mt-2 text-xl font-semibold text-text-primary sm:text-2xl">استكشف الخوارزميات</h2>
             </div>
             <button type="button" onClick={onStart} className="hidden shrink-0 items-center gap-2 border border-border-subtle px-4 py-2 text-xs font-semibold text-text-secondary transition-colors hover:border-accent-blue hover:text-accent-blue sm:inline-flex">استكشف جميع الخوارزميات<ArrowLeft className="h-3.5 w-3.5" /></button>
           </div>
-          <div className="space-y-10">
+          <div className="space-y-8 sm:space-y-10">
             {previewCategories.map((category) => (
               <div key={category.id}>
                 <h3 className="mb-3 font-mono text-xs text-text-muted">{category.name}</h3>
-                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {category.algorithms.map((algorithm) => <AlgorithmPreviewCard key={algorithm.id} {...algorithm} onOpen={onStart} />)}
                 </div>
               </div>
@@ -173,26 +173,26 @@ export default function LandingPage() {
           <button type="button" onClick={onStart} className="mt-8 inline-flex w-full items-center justify-center gap-2 border border-border-subtle py-3 text-xs font-semibold text-text-secondary transition-colors hover:border-accent-blue hover:text-accent-blue sm:hidden">استكشف جميع الخوارزميات<ArrowLeft className="h-3.5 w-3.5" /></button>
         </section>
 
-        <section className="mt-20 border-t border-border-subtle pt-10" aria-labelledby="testimonials-heading">
+        <section className="mt-14 border-t border-border-subtle pt-8 sm:mt-16 sm:pt-10 lg:mt-20" aria-labelledby="testimonials-heading">
           <div className="mb-6 flex flex-wrap items-center gap-3">
             <h2 id="testimonials-heading" className="text-lg font-semibold text-text-primary">آراء الطلاب</h2>
             <span className="border border-border-subtle bg-bg-inset px-2 py-0.5 font-mono text-[10px] text-text-muted">محتوى تجريبي — بانتظار آراء حقيقية</span>
           </div>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-3">
             {demoTestimonials.map((testimonial) => <TestimonialCard key={testimonial.role} {...testimonial} />)}
           </div>
         </section>
 
-        <section className="mt-20 border border-accent-blue/30 bg-bg-panel px-8 py-14 text-center" aria-labelledby="cta-heading">
+        <section className="mt-14 border border-accent-blue/30 bg-bg-panel px-5 py-10 text-center sm:mt-16 sm:px-8 sm:py-14 lg:mt-20" aria-labelledby="cta-heading">
           <p className="font-mono text-[10px] text-accent-blue">// get_started</p>
-          <h2 id="cta-heading" className="mt-2 text-2xl font-semibold text-text-primary">جاهز لتجربة الخوارزميات؟</h2>
+          <h2 id="cta-heading" className="mt-2 text-xl font-semibold text-text-primary sm:text-2xl">جاهز لتجربة الخوارزميات؟</h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-text-secondary">ابدأ الآن وشاهد كيف تعمل الخوارزميات خطوة بخطوة.</p>
-          <button type="button" onClick={onStart} className="mt-7 inline-flex h-11 items-center gap-3 bg-accent-blue px-6 text-sm font-semibold text-bg-inset transition-colors hover:bg-accent-blue-bright focus-visible:outline-none"><Play className="h-4 w-4 fill-current" />ابدأ التعلم<ArrowLeft className="h-4 w-4" /></button>
+          <button type="button" onClick={onStart} className="mt-7 flex h-11 w-full items-center justify-center gap-3 bg-accent-blue px-6 text-sm font-semibold text-bg-inset transition-colors hover:bg-accent-blue-bright focus-visible:outline-none sm:inline-flex sm:w-auto"><Play className="h-4 w-4 fill-current" />ابدأ التعلم<ArrowLeft className="h-4 w-4" /></button>
         </section>
       </main>
 
       <footer className="mx-auto w-full max-w-7xl border-t border-border-subtle">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-10 py-8 sm:flex-row sm:justify-between">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between sm:px-6 md:px-10">
           <p className="order-2 font-mono text-[13px] text-text-muted">{new Date().getFullYear()} DSAlgeria</p>
           <div className="order-1 sm:order-2 flex items-center gap-2">
             {socialLinks.map(({ name, Icon, url }) => (
