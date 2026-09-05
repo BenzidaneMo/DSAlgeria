@@ -4,6 +4,7 @@ export const SELECTION_SORT_METADATA = Object.freeze({
   name: "الترتيب بالاختيار",
   englishName: "Selection Sort",
   description: "نبحث عن أصغر عنصر في الجزء غير المرتب ونضعه في موضعه الصحيح في كل دورة.",
+  producesSortedOutput: true,
   complexity: {
     best: "O(n²)",
     average: "O(n²)",

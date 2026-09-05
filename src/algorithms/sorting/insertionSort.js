@@ -4,6 +4,7 @@ export const INSERTION_SORT_METADATA = Object.freeze({
   name: "الترتيب بالإدراج",
   englishName: "Insertion Sort",
   description: "نأخذ كل عنصر جديد ونُدرجه في موضعه الصحيح داخل الجزء المرتب، مع إزاحة العناصر الأكبر.",
+  producesSortedOutput: true,
   complexity: {
     best: "O(n)",
     average: "O(n²)",

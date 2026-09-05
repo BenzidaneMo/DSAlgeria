@@ -6,6 +6,7 @@ export const TERNARY_SEARCH_METADATA = Object.freeze({
   description: "يبحث في مصفوفة مرتبة بتقسيم مجال البحث إلى ثلاثة أجزاء، ثم يستبعد الجزء الذي لا يمكن أن يحتوي على القيمة المطلوبة.",
   requirement: "يجب أن تكون المصفوفة مرتبة تصاعديًا قبل بدء البحث.",
   requiresSortedInput: true,
+  requiresTarget: true,
   complexity: { best: "O(1)", average: "O(log₃ n)", worst: "O(log₃ n)", space: "O(1)" },
   sourceCode: `def ternary_search(a, target):
     left = 0

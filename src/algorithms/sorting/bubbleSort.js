@@ -4,6 +4,7 @@ export const BUBBLE_SORT_METADATA = Object.freeze({
   name: "الترتيب الفقاعي",
   englishName: "Bubble Sort",
   description: "نمر على العناصر المتجاورة ونبدلها إذا كانت بالترتيب الخاطئ، حتى تصبح القائمة مرتبة.",
+  producesSortedOutput: true,
   complexity: {
     best: "O(n)",
     average: "O(n²)",

@@ -6,6 +6,7 @@ export const BINARY_SEARCH_METADATA = Object.freeze({
   description: "يبحث في مصفوفة مرتبة بقسم مجال البحث إلى نصفين بعد كل مقارنة، ثم يستبعد النصف الذي لا يمكن أن يحتوي على الهدف.",
   requirement: "يجب أن تكون المصفوفة مرتبة تصاعديًا قبل بدء البحث.",
   requiresSortedInput: true,
+  requiresTarget: true,
   complexity: { best: "O(1)", average: "O(log n)", worst: "O(log n)", space: "O(1)" },
   sourceCode: `def binary_search(a, target):
     left = 0

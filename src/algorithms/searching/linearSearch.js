@@ -4,6 +4,7 @@ export const LINEAR_SEARCH_METADATA = Object.freeze({
   name: "البحث الخطي",
   englishName: "Linear Search",
   description: "نفحص عناصر المصفوفة واحدًا تلو الآخر من البداية حتى نجد القيمة المطلوبة أو نصل إلى النهاية.",
+  requiresTarget: true,
   complexity: { best: "O(1)", average: "O(n)", worst: "O(n)", space: "O(1)" },
   sourceCode: `def linear_search(a, target):
     for index in range(len(a)):

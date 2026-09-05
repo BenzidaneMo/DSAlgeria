@@ -4,6 +4,7 @@ export const MERGE_SORT_METADATA = Object.freeze({
   name: "الترتيب بالدمج",
   englishName: "Merge Sort",
   description: "نقسم المصفوفة إلى أجزاء أصغر، ثم ندمج الأجزاء المرتبة تدريجيا للحصول على مصفوفة مرتبة.",
+  producesSortedOutput: true,
   complexity: { best: "O(n log n)", average: "O(n log n)", worst: "O(n log n)", space: "O(n)" },
   sourceCode: `def merge_sort(a, left, right):
     if left >= right:

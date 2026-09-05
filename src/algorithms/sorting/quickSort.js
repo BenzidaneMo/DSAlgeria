@@ -4,6 +4,7 @@ export const QUICK_SORT_METADATA = Object.freeze({
   name: "الترتيب السريع",
   englishName: "Quick Sort",
   description: "نختار عنصراً محورياً ونقسم المصفوفة حوله، ثم نرتب الجزأين الناتجين بشكل متكرر.",
+  producesSortedOutput: true,
   complexity: {
     best: "O(n log n)",
     average: "O(n log n)",

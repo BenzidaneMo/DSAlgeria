@@ -14,13 +14,19 @@ export default function AppShell() {
   const player = useAlgorithmPlayer({ steps });
 
   useEffect(() => {
-    if (getStepOperation(player.currentStep) === STEP_OPERATIONS.COMPLETE && selectedAlgorithm?.id.endsWith("sort")) {
+    if (getStepOperation(player.currentStep) === STEP_OPERATIONS.COMPLETE && selectedAlgorithm?.producesSortedOutput) {
       setSortedState({ sortedArray: [...player.currentStep.array], isSorted: true, sortedBy: selectedAlgorithm.id });
     }
   }, [player.currentStep, selectedAlgorithm]);
 
   function getAlgorithmInput(algorithm, nextArray = array, nextTarget = target) {
-    return algorithm.id === "linear-search" ? { array: nextArray, target: nextTarget } : algorithm.id === "binary-search" || algorithm.id === "ternary-search" ? { sortedArray: sortedState.sortedArray, isSorted: sortedState.isSorted, sortedBy: sortedState.sortedBy, target: nextTarget } : nextArray;
+    if (algorithm.requiresSortedInput) {
+      return { sortedArray: sortedState.sortedArray, isSorted: sortedState.isSorted, sortedBy: sortedState.sortedBy, target: nextTarget };
+    }
+    if (algorithm.requiresTarget) {
+      return { array: nextArray, target: nextTarget };
+    }
+    return nextArray;
   }
 
   function selectAlgorithm(algorithm) {
@@ -32,7 +38,7 @@ export default function AppShell() {
     setArray(nextArray);
     setSortedState({ sortedArray: [], isSorted: false, sortedBy: null });
     if (selectedAlgorithm) {
-      const input = selectedAlgorithm.id === "binary-search" || selectedAlgorithm.id === "ternary-search"
+      const input = selectedAlgorithm.requiresSortedInput
         ? { sortedArray: [], isSorted: false, sortedBy: null, target }
         : getAlgorithmInput(selectedAlgorithm, nextArray);
       setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input }));
@@ -49,7 +55,7 @@ export default function AppShell() {
         steps={steps}
         currentStepIndex={player.currentStepIndex}
         executionLog={player.executionLog}
-        array={selectedAlgorithm?.id === "binary-search" || selectedAlgorithm?.id === "ternary-search" ? (sortedState.isSorted ? sortedState.sortedArray : array) : array}
+        array={selectedAlgorithm?.requiresSortedInput ? (sortedState.isSorted ? sortedState.sortedArray : array) : array}
         originalArray={array}
         sortedState={sortedState}
 
@@ -57,7 +63,7 @@ export default function AppShell() {
         target={target}
         onTargetChange={(nextTarget) => {
           setTarget(nextTarget);
-          if (selectedAlgorithm?.id === "linear-search" || selectedAlgorithm?.id === "binary-search" || selectedAlgorithm?.id === "ternary-search") {
+          if (selectedAlgorithm?.requiresTarget) {
             setSteps(generateStepsForAlgorithm({ ...selectedAlgorithm, input: getAlgorithmInput(selectedAlgorithm, array, nextTarget) }));
           }
         }}
