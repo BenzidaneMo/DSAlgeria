@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ArrowDown, ArrowLeft, Binary, BookOpen, Box, Eye, FlaskConical, ListChecks, MousePointerClick, Play, ScanSearch, SlidersHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import { socialLinks } from "../../data/socialsMedia";
 import { ALGORITHM_CATEGORIES } from "../../data/algorithms";
@@ -117,7 +118,10 @@ function AlgorithmPreviewCard({ name, englishName, description, onOpen }) {
   );
 }
 
-export default function LandingPage({ onStart }) {
+export default function LandingPage() {
+  const navigate = useNavigate();
+  const onStart = () => navigate("/app");
+
   return (
     <div className="h-screen w-full overflow-y-auto overflow-x-hidden bg-bg-app text-text-primary" dir="rtl">
       <Navbar />
