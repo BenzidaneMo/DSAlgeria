@@ -58,6 +58,7 @@ export const STEP_OPERATIONS = Object.freeze({
   RECURSIVE_CALL: "recursiveCall",
   RETURN: "return",
   REMOVE: "remove",
+  MOVE: "move",
   COMPLETE: "complete",
   CUSTOM: "custom",
 });

@@ -15,5 +15,6 @@ export const STEP_OPERATION_LABELS = Object.freeze({
   [STEP_OPERATIONS.PARTITION]: "تقسيم محوري",
   [STEP_OPERATIONS.RECURSIVE_CALL]: "استدعاء ذاتي",
   [STEP_OPERATIONS.RETURN]: "عودة",
+  [STEP_OPERATIONS.MOVE]: "نقل القرص",
   [STEP_OPERATIONS.COMPLETE]: "اكتمل الترتيب",
 });

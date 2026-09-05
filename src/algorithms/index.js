@@ -8,6 +8,7 @@ import { generateQuickSortSteps } from "./sorting/quickSort";
 import { generateSelectionSortSteps } from "./sorting/selectionSort";
 import { generateFactorialSteps } from "./recursion/factorial";
 import { generateFibonacciSteps } from "./recursion/fibonacci";
+import { generateTowerOfHanoiSteps } from "./recursion/towerOfHanoi";
 
 const EMPTY_GENERATOR = () => [];
 
@@ -25,7 +26,7 @@ export const ALGORITHM_GENERATORS = Object.freeze({
   dijkstra: EMPTY_GENERATOR,
   factorial: generateFactorialSteps,
   fibonacci: generateFibonacciSteps,
-  "tower-of-hanoi": EMPTY_GENERATOR,
+  "tower-of-hanoi": generateTowerOfHanoiSteps,
 });
 
 export function generateStepsForAlgorithm(algorithm) {

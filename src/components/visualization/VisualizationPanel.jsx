@@ -2,20 +2,15 @@ import { Video } from "lucide-react";
 import { useRef, useState } from "react";
 import { getStepOperation } from "../../engine/stepTypes";
 import { createCanvasCaptureSource, createRecordingProfile, createVideoRecordingSession } from "../../recording";
-import { renderArray2DFrame } from "../../recording/array2DVideoRenderer";
-import { renderRecursionFrame } from "../../recording/recursionVideoRenderer";
-import Array2DVisualizer from "./Array2DVisualizer";
-import Array3DVisualizer from "./Array3DVisualizer";
-import RecursionVisualizer from "./RecursionVisualizer";
-import Recursion3DVisualizer from "./Recursion3DVisualizer";
 import ExecutionLog from "./ExecutionLog";
 import SourceCodePanel from "./SourceCodePanel";
 import { STEP_OPERATION_LABELS } from "./stepPresentation";
 import VisualizationToolbar from "./VisualizationToolbar";
 import VideoGenerationModal from "./VideoGenerationModal";
+import { getVisualizationKind } from "./visualizationRegistry";
 
 export default function VisualizationPanel({ selectedAlgorithm, currentStep, steps = [], currentStepIndex = -1, executionLog = [], array = [], onCanvasReady, showInlinePanels = true }) {
-  const isRecursion = selectedAlgorithm?.visualizationKind === "recursion";
+  const { View2D, View3D, renderFrame, align } = getVisualizationKind(selectedAlgorithm);
   const [mode, setMode] = useState("2d");
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [videoStatus, setVideoStatus] = useState({ state: "idle", progress: 0, url: "", message: "" });
@@ -83,11 +78,7 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
         renderStep: (step) => {
           setRecordingStep(step);
           if (videoMode === "2d") {
-            if (isRecursion) {
-              renderRecursionFrame(captureCanvas, step, { width, height });
-            } else {
-              renderArray2DFrame(captureCanvas, step, { width, height });
-            }
+            renderFrame(captureCanvas, step, { width, height });
             session.requestFrame();
           }
         },
@@ -139,16 +130,21 @@ export default function VisualizationPanel({ selectedAlgorithm, currentStep, ste
         </div>
       </div>
 
-      <div className={`flex min-h-80 flex-1 ${isRecursion ? "items-center" : "items-end"} justify-center px-6 pb-10 pt-8`}>
-        {isRecursion
-          ? (mode === "2d" ? <RecursionVisualizer currentStep={currentStep} /> : <Recursion3DVisualizer currentStep={currentStep} onCanvasReady={onCanvasReady} />)
-          : (mode === "2d" ? <Array2DVisualizer array={array} currentStep={currentStep} /> : <Array3DVisualizer array={array} currentStep={currentStep} onCanvasReady={onCanvasReady} />)}
+      <div className={`flex min-h-80 flex-1 ${align} justify-center px-6 pb-10 pt-8`}>
+        {mode === "2d"
+          ? <View2D array={array} currentStep={currentStep} />
+          : <View3D array={array} currentStep={currentStep} onCanvasReady={onCanvasReady} />}
       </div>
 
       {recordingMode === "3d" && <div style={{ position: "fixed", left: "-10000px", top: 0, width: recordingSize.width, height: recordingSize.height, pointerEvents: "none" }} aria-hidden="true">
-        {isRecursion
-          ? <Recursion3DVisualizer currentStep={recordingStep} onCanvasReady={(canvas) => { recordingCanvasRef.current = canvas; setRecordingCanvas(canvas); }} />
-          : <Array3DVisualizer array={array} currentStep={recordingStep} currentStepIndex={-1} viewportWidth={recordingSize.width} viewportHeight={recordingSize.height} onCanvasReady={(canvas) => { recordingCanvasRef.current = canvas; setRecordingCanvas(canvas); }} />}
+        <View3D
+          array={array}
+          currentStep={recordingStep}
+          currentStepIndex={-1}
+          viewportWidth={recordingSize.width}
+          viewportHeight={recordingSize.height}
+          onCanvasReady={(canvas) => { recordingCanvasRef.current = canvas; setRecordingCanvas(canvas); }}
+        />
       </div>}
 
       {showInlinePanels && (

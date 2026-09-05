@@ -5,3 +5,4 @@ export { VideoRecordingSession, createVideoRecordingSession } from "./videoRecor
 export { createCanvasCaptureSource, createVisualizationCaptureSource } from "./captureSource";
 export { renderArray2DFrame } from "./array2DVideoRenderer";
 export { renderRecursionFrame } from "./recursionVideoRenderer";
+export { renderHanoiFrame } from "./hanoiVideoRenderer";

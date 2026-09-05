@@ -1,4 +1,4 @@
-import { Check, Circle, CornerDownRight, CornerUpLeft, Eye, GitCompareArrows, ListOrdered, Merge, MousePointerClick, MoveRight, RefreshCw, SplitSquareVertical, X } from "lucide-react";
+import { Check, Circle, CornerDownRight, CornerUpLeft, Eye, GitCompareArrows, Layers, ListOrdered, Merge, MousePointerClick, MoveRight, RefreshCw, SplitSquareVertical, X } from "lucide-react";
 import { getStepOperation, STEP_OPERATIONS } from "../../engine/stepTypes";
 import { STEP_OPERATION_LABELS } from "./stepPresentation";
 
@@ -17,12 +17,14 @@ const OPERATION_ICONS = {
   [STEP_OPERATIONS.PARTITION]: SplitSquareVertical,
   [STEP_OPERATIONS.RECURSIVE_CALL]: CornerDownRight,
   [STEP_OPERATIONS.RETURN]: CornerUpLeft,
+  [STEP_OPERATIONS.MOVE]: Layers,
   [STEP_OPERATIONS.COMPLETE]: Check,
 };
 
 const OPERATION_COLORS = {
   [STEP_OPERATIONS.SWAP]: "text-accent-orange",
   [STEP_OPERATIONS.SHIFT]: "text-accent-orange",
+  [STEP_OPERATIONS.MOVE]: "text-accent-orange",
   [STEP_OPERATIONS.COMPLETE]: "text-accent-green",
   [STEP_OPERATIONS.FOUND]: "text-accent-green",
   [STEP_OPERATIONS.NOT_FOUND]: "text-accent-red",
