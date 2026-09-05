@@ -1,4 +1,5 @@
 import { ArrowDown, GitBranch } from "lucide-react";
+import RecursionTree from "./RecursionTree";
 
 const FRAME_STYLES = {
   pending: "border-border-subtle text-text-muted opacity-40",
@@ -29,11 +30,18 @@ function FrameCard({ frame, isCurrent }) {
   );
 }
 
+/**
+ * Generic recursion visualizer: renders whichever shape the current
+ * algorithm's steps carry — a linear call stack (`metadata.callStack`, e.g.
+ * Factorial) or a branching call tree (`metadata.callTree`, e.g. Fibonacci)
+ * — without any algorithm-specific branching outside this component.
+ */
 export default function RecursionVisualizer({ currentStep }) {
   const metadata = currentStep?.metadata;
   const callStack = metadata?.callStack;
+  const callTree = metadata?.callTree;
 
-  if (!callStack) {
+  if (!callStack && !callTree) {
     return (
       <div className="flex flex-col items-center gap-3 text-center text-text-muted">
         <GitBranch className="h-10 w-10" strokeWidth={1.2} />
@@ -42,8 +50,8 @@ export default function RecursionVisualizer({ currentStep }) {
     );
   }
 
-  return (
-    <div className="flex h-full w-full max-w-sm flex-col items-center gap-3 overflow-y-auto py-2" dir="ltr">
+  const banners = (
+    <>
       {metadata.expression && (
         <div className="mb-1 border border-accent-orange/50 bg-accent-orange/10 px-4 py-2 text-center font-mono text-sm font-semibold text-accent-orange">
           {metadata.expression}
@@ -54,6 +62,21 @@ export default function RecursionVisualizer({ currentStep }) {
           النتيجة النهائية: {metadata.result}
         </div>
       )}
+    </>
+  );
+
+  if (callTree) {
+    return (
+      <div className="flex h-full w-full flex-col items-center gap-3 overflow-auto py-2">
+        {banners}
+        <RecursionTree nodes={callTree} currentNodeId={metadata.nodeId} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-full w-full max-w-sm flex-col items-center gap-3 overflow-y-auto py-2" dir="ltr">
+      {banners}
       <div className="flex w-full flex-col items-center gap-1.5">
         {callStack.map((frame, index) => (
           <div key={frame.depth} className="flex w-full flex-col items-center gap-1.5">

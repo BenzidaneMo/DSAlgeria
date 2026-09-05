@@ -7,6 +7,7 @@ import { generateMergeSortSteps } from "./sorting/mergeSort";
 import { generateQuickSortSteps } from "./sorting/quickSort";
 import { generateSelectionSortSteps } from "./sorting/selectionSort";
 import { generateFactorialSteps } from "./recursion/factorial";
+import { generateFibonacciSteps } from "./recursion/fibonacci";
 
 const EMPTY_GENERATOR = () => [];
 
@@ -23,7 +24,7 @@ export const ALGORITHM_GENERATORS = Object.freeze({
   "depth-first-search": EMPTY_GENERATOR,
   dijkstra: EMPTY_GENERATOR,
   factorial: generateFactorialSteps,
-  fibonacci: EMPTY_GENERATOR,
+  fibonacci: generateFibonacciSteps,
   "tower-of-hanoi": EMPTY_GENERATOR,
 });
 

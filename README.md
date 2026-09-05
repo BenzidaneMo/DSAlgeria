@@ -145,10 +145,10 @@ The platform organizes algorithms into categories (خوارزميات الترت
 
 **Recursion / Self-Invocation (الاستدعاء الذاتي)**
 - Factorial (المضروب) — visualized as a recursive call chain going down to the base case, then an unwinding chain of multiplications back up, in both 2D and 3D, rather than reusing the array bar-chart view.
+- Fibonacci (متتالية فيبوناتشي) — visualized as a branching call tree (not a linear stack), built from the exact naive recursive definition with no memoization, so students can see repeated subtree calls with their own eyes. Reuses the same recursion visualizer/renderer/video-capture components as Factorial, which now render either a call stack or a call tree depending on the step data.
 
 ### 🚧 Planned (registered, not yet implemented)
 
-- Fibonacci (متتالية فيبوناتشي)
 - Tower of Hanoi (أبراج هانوي)
 - Breadth-First Search / Depth-First Search
 - Dijkstra's Algorithm
@@ -200,6 +200,7 @@ The interface uses Arabic terminology for important educational sections, includ
 | التعقيد الزمني | Time Complexity |
 | التعقيد المكاني | Space Complexity |
 | المضروب | Factorial |
+| متتالية فيبوناتشي | Fibonacci |
 | الاستدعاء الذاتي | Recursion / Self-Invocation |
 | الحالة الأساسية | Base Case |
 | سهل / متوسط / متقدم | Easy / Medium / Advanced |
@@ -329,7 +330,7 @@ The structure may evolve as new algorithms and visualization features are added.
 
 Potential future improvements include:
 
-- Fibonacci and Tower of Hanoi, reusing the recursion visualization introduced for Factorial
+- Tower of Hanoi, reusing the recursion visualization introduced for Factorial and Fibonacci
 - Graph algorithms (BFS, DFS, Dijkstra) with a dedicated node/edge visualization
 - Additional algorithmic paradigms (Divide and Conquer, Greedy Algorithms, Dynamic Programming)
 - More data structures

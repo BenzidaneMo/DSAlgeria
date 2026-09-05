@@ -7,6 +7,7 @@ import { MERGE_SORT_METADATA } from "../algorithms/sorting/mergeSort";
 import { QUICK_SORT_METADATA } from "../algorithms/sorting/quickSort";
 import { SELECTION_SORT_METADATA } from "../algorithms/sorting/selectionSort";
 import { FACTORIAL_METADATA } from "../algorithms/recursion/factorial";
+import { FIBONACCI_METADATA } from "../algorithms/recursion/fibonacci";
 import { ALGORITHM_DIFFICULTY } from "./algorithmDifficulty";
 
 function withDifficulty(algorithm) {
@@ -48,7 +49,7 @@ export const ALGORITHM_CATEGORIES = [
     name: "الاستدعاء الذاتي",
     algorithms: [
       withDifficulty({ id: "factorial", ...FACTORIAL_METADATA }),
-      withDifficulty({ id: "fibonacci", name: "متتالية فيبوناتشي", englishName: "Fibonacci" }),
+      withDifficulty({ id: "fibonacci", ...FIBONACCI_METADATA }),
       withDifficulty({ id: "tower-of-hanoi", name: "أبراج هانوي", englishName: "Tower of Hanoi" }),
     ],
   },

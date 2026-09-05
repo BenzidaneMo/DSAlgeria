@@ -17,6 +17,7 @@ export function renderRecursionFrame(canvas, step, { width, height } = {}) {
   const frameHeight = height ?? canvas.height;
   const metadata = step?.metadata ?? {};
   const callStack = metadata.callStack ?? [];
+  const callTree = metadata.callTree ?? null;
 
   if (canvas.width !== frameWidth || canvas.height !== frameHeight) {
     canvas.width = frameWidth;
@@ -42,6 +43,14 @@ export function renderRecursionFrame(canvas, step, { width, height } = {}) {
   context.fillStyle = COLORS.muted;
   context.font = "16px sans-serif";
   context.fillText(step?.message ?? "الخطوة الحالية", frameWidth - 32, 64);
+
+  if (callTree) {
+    if (callTree.length === 0) {
+      return;
+    }
+    renderCallTree(context, callTree, metadata, frameWidth, frameHeight);
+    return;
+  }
 
   if (callStack.length === 0) {
     return;
@@ -100,6 +109,70 @@ export function renderRecursionFrame(canvas, step, { width, height } = {}) {
       context.moveTo(centerX, y + boxHeight);
       context.lineTo(centerX, y + boxHeight + gap);
       context.stroke();
+    }
+  });
+}
+
+function renderCallTree(context, callTree, metadata, frameWidth, frameHeight) {
+  const maxDepth = Math.max(...callTree.map((node) => node.depth));
+  const maxX = Math.max(...callTree.map((node) => node.x));
+  const marginTop = 130;
+  const marginBottom = 40;
+  const xUnit = (frameWidth - 80) / (maxX + 2);
+  const yUnit = Math.min(100, (frameHeight - marginTop - marginBottom) / (maxDepth + 1));
+  const boxW = Math.min(88, xUnit * 0.82);
+  const boxH = 40;
+  const byId = new Map(callTree.map((node) => [node.id, node]));
+
+  function toScreen(node) {
+    return { cx: 40 + (node.x + 1) * xUnit, cy: marginTop + node.depth * yUnit };
+  }
+
+  context.strokeStyle = COLORS.border;
+  context.lineWidth = 1.5;
+  callTree.forEach((node) => {
+    if (!node.parentId) return;
+    const parent = byId.get(node.parentId);
+    if (!parent) return;
+    const a = toScreen(parent);
+    const b = toScreen(node);
+    context.beginPath();
+    context.moveTo(a.cx, a.cy + boxH / 2);
+    context.lineTo(b.cx, b.cy - boxH / 2);
+    context.stroke();
+  });
+
+  callTree.forEach((node) => {
+    const { cx, cy } = toScreen(node);
+    const isCurrent = node.id === metadata.nodeId;
+    const color = node.status === "pending"
+      ? COLORS.pending
+      : node.status === "base"
+        ? COLORS.base
+        : isCurrent
+          ? COLORS.active
+          : node.status === "done"
+            ? COLORS.done
+            : COLORS.pending;
+
+    context.globalAlpha = node.status === "pending" ? 0.45 : 1;
+    context.fillStyle = color;
+    context.fillRect(cx - boxW / 2, cy - boxH / 2, boxW, boxH);
+    context.strokeStyle = COLORS.border;
+    context.lineWidth = isCurrent ? 2.5 : 1;
+    context.strokeRect(cx - boxW / 2, cy - boxH / 2, boxW, boxH);
+    context.globalAlpha = 1;
+
+    context.direction = "ltr";
+    context.textAlign = "center";
+    context.fillStyle = COLORS.text;
+    context.font = "600 13px monospace";
+    context.fillText(`f(${node.n})`, cx, cy - 2);
+
+    if (node.result !== null && node.result !== undefined) {
+      context.fillStyle = COLORS.done;
+      context.font = "600 12px monospace";
+      context.fillText(`= ${node.result}`, cx, cy + 13);
     }
   });
 }
