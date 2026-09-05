@@ -1,11 +1,31 @@
-import { Check, Circle, GitCompareArrows, MoveRight } from "lucide-react";
+import { Check, Circle, CornerDownRight, CornerUpLeft, Eye, GitCompareArrows, ListOrdered, Merge, MousePointerClick, MoveRight, RefreshCw, SplitSquareVertical, X } from "lucide-react";
 import { getStepOperation, STEP_OPERATIONS } from "../../engine/stepTypes";
 import { STEP_OPERATION_LABELS } from "./stepPresentation";
 
 const OPERATION_ICONS = {
-  compare: GitCompareArrows,
-  swap: MoveRight,
-  complete: Check,
+  [STEP_OPERATIONS.COMPARE]: GitCompareArrows,
+  [STEP_OPERATIONS.SWAP]: MoveRight,
+  [STEP_OPERATIONS.SELECT]: MousePointerClick,
+  [STEP_OPERATIONS.SHIFT]: MoveRight,
+  [STEP_OPERATIONS.INSERT]: ListOrdered,
+  [STEP_OPERATIONS.SPLIT]: SplitSquareVertical,
+  [STEP_OPERATIONS.MERGE]: Merge,
+  [STEP_OPERATIONS.FOUND]: Check,
+  [STEP_OPERATIONS.NOT_FOUND]: X,
+  [STEP_OPERATIONS.VISIT]: Eye,
+  [STEP_OPERATIONS.UPDATE]: RefreshCw,
+  [STEP_OPERATIONS.PARTITION]: SplitSquareVertical,
+  [STEP_OPERATIONS.RECURSIVE_CALL]: CornerDownRight,
+  [STEP_OPERATIONS.RETURN]: CornerUpLeft,
+  [STEP_OPERATIONS.COMPLETE]: Check,
+};
+
+const OPERATION_COLORS = {
+  [STEP_OPERATIONS.SWAP]: "text-accent-orange",
+  [STEP_OPERATIONS.SHIFT]: "text-accent-orange",
+  [STEP_OPERATIONS.COMPLETE]: "text-accent-green",
+  [STEP_OPERATIONS.FOUND]: "text-accent-green",
+  [STEP_OPERATIONS.NOT_FOUND]: "text-accent-red",
 };
 
 export default function ExecutionLog({ executionLog = [], currentStepIndex, totalSteps = 0 }) {
@@ -22,22 +42,27 @@ export default function ExecutionLog({ executionLog = [], currentStepIndex, tota
         {visibleSteps.length === 0 ? (
           <p className="px-2 py-3 text-[11px] text-text-muted">سيظهر سير الخوارزمية هنا عند التشغيل.</p>
         ) : (
-          <ol className="flex flex-col gap-1">
-                        {visibleSteps.map(({ step, stepIndex }) => {
+          <ol className="flex flex-col gap-1.5">
+            {visibleSteps.map(({ step, stepIndex }) => {
               const operation = getStepOperation(step);
+              const isCurrent = stepIndex === currentStepIndex;
 
               const Icon = OPERATION_ICONS[operation] ?? Circle;
               const label = STEP_OPERATION_LABELS[operation] ?? operation;
+              const color = OPERATION_COLORS[operation] ?? "text-accent-blue";
 
               return (
-                                <li key={`${stepIndex}-${operation}`} className={`flex items-start gap-2 border-s-2 px-2 py-1.5 ${stepIndex === currentStepIndex ? "border-accent-blue bg-bg-elevated" : "border-transparent"}`}>
-                  <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${operation === STEP_OPERATIONS.SWAP ? "text-accent-orange" : operation === STEP_OPERATIONS.COMPLETE ? "text-accent-green" : "text-accent-blue"}`} strokeWidth={1.8} />
+                <li key={`${stepIndex}-${operation}`} className={`flex items-start gap-2 border-s-2 px-2 py-2 ${isCurrent ? "border-accent-blue bg-bg-elevated" : "border-transparent"}`}>
+                  <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${color}`} strokeWidth={1.8} />
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] text-text-muted">الخطوة {stepIndex + 1} · {label}</span>
+                    <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5">
+                      <span className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-semibold text-text-secondary">الخطوة {stepIndex + 1}</span>
+                        <span className={`text-[10px] font-semibold ${color}`}>{label}</span>
+                      </span>
                       {step.codeLine !== null && <span className="font-mono text-[10px] text-accent-yellow">سطر {step.codeLine}</span>}
                     </div>
-                    <p className="mt-0.5 truncate text-[11px] text-text-secondary" title={step.message ?? ""}>{step.message ?? step.operation}</p>
+                    <p className={`mt-1 whitespace-pre-line text-[11px] leading-5 ${isCurrent ? "text-text-primary" : "text-text-secondary"}`}>{step.message ?? label}</p>
                   </div>
                 </li>
               );
