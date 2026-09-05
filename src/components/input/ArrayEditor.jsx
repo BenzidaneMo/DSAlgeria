@@ -68,7 +68,7 @@ export default function ArrayEditor({ value, onApply, onClose }) {
   return (
     <>
         <div className="fixed inset-0 z-10 bg-black/50" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()} />
-        <div className="fixed bottom-14 left-4 z-20 w-[min(360px,calc(100vw-2rem))] border border-border bg-bg-panel p-4 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="array-editor-heading">
+        <div className="fixed bottom-14 left-4 z-[999] w-[min(360px,calc(100vw-2rem))] border border-border bg-bg-panel p-4 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="array-editor-heading">
             <div className="mb-3 flex items-center justify-between border-b border-border-subtle pb-3">
                 <div>
                     <h3 id="array-editor-heading" className="text-xs font-semibold text-text-primary">تعديل المصفوفة</h3>
