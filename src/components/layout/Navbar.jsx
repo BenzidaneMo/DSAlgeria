@@ -1,4 +1,4 @@
-import { Binary, Braces, Home, Info, Menu, Play, X } from "lucide-react";
+import { Binary, Braces, Home, Info, Maximize, Menu, Minimize, Play, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AboutModal from "./AboutModal";
@@ -13,9 +13,27 @@ const mobileNavLinks = [
 export default function Navbar() {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const headerRef = useRef(null);
   const navigate = useNavigate();
   const onStart = () => navigate("/");
+
+  useEffect(() => {
+    function handleFullscreenChange() {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    }
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  function toggleFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+  }
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -45,26 +63,38 @@ export default function Navbar() {
           <span className="font-mono text-sm font-semibold text-text-primary">DSAlgeria</span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsAboutOpen(true)}
-          className="hidden h-7 items-center gap-1.5 border border-border-subtle px-2.5 text-xs text-text-secondary transition-colors hover:bg-bg-hover hover:text-text-primary sm:flex"
-          aria-label="حول الموقع"
-        >
-          <Info className="h-3.5 w-3.5" strokeWidth={2} />
-          <span>حول الموقع</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            className="flex h-7 w-7 items-center justify-center border border-border-subtle text-text-secondary transition-colors hover:bg-bg-hover hover:text-text-primary"
+            aria-label={isFullscreen ? "الخروج من وضع ملء الشاشة" : "وضع ملء الشاشة"}
+            aria-pressed={isFullscreen}
+          >
+            {isFullscreen ? <Minimize className="h-3.5 w-3.5" strokeWidth={2} /> : <Maximize className="h-3.5 w-3.5" strokeWidth={2} />}
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          className="flex h-7 w-7 items-center justify-center border border-border-subtle text-text-secondary transition-colors hover:bg-bg-hover hover:text-text-primary sm:hidden"
-          aria-label={isMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-nav-menu"
-        >
-          {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
+          <button
+            type="button"
+            onClick={() => setIsAboutOpen(true)}
+            className="hidden h-7 items-center gap-1.5 border border-border-subtle px-2.5 text-xs text-text-secondary transition-colors hover:bg-bg-hover hover:text-text-primary sm:flex"
+            aria-label="حول الموقع"
+          >
+            <Info className="h-3.5 w-3.5" strokeWidth={2} />
+            <span>حول الموقع</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="flex h-7 w-7 items-center justify-center border border-border-subtle text-text-secondary transition-colors hover:bg-bg-hover hover:text-text-primary sm:hidden"
+            aria-label={isMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav-menu"
+          >
+            {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
 
         <nav
           id="mobile-nav-menu"
